@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-family: 'Roboto Slab', serif;
+}
+
+.flex {
+    display: flex;
+}
+
+.block {
+    display: block;
+}
+
+.inline {
+    display: inline;
+}
+.none {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.content-center {
+    justify-content: center;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.h-36 {
+    height: 36px;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.round-full {
+    border-radius: 9999px;
+}
+
+.center {
+    justify-content: center;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+.b-1 {
+    border: 1px solid;
+}
+
+.text-18 {
+    font-size: 18px;
+}
+.text-24 {
+    font-size: 24px;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+/* home */
+.header_menu-end {
+    margin-left: 25px;
+}
+.header_item {
+    width: 40px;
+    height: 40px;
+}
+.header_item:hover {
+    background-color: antiquewhite;
+}
+.header_home {
+    padding: 10px 20px;
+}
+
+.header_menu-center {
+    margin-left: 15px;
+}
+
+.header_image-login {
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+    border: 2px solid gainsboro;
+}
+
+.header_image-login:hover + .login_info{
+    display: block;
+}
+
+.login_info {
+    background-color: #1f1c1c;
+    border-radius: 5px;
+    top: 110%;
+    right: 6px;
+}
+
+#btnCreateZoom {
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+}
