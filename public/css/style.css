@@ -109,15 +109,21 @@
     border: 2px solid gainsboro;
 }
 
-.header_image-login:hover + .login_info{
+/* .header_image-login:hover + .login_info{
     display: block;
-}
+} */
 
 .login_info {
     background-color: #1f1c1c;
     border-radius: 5px;
     top: 110%;
     right: 6px;
+    padding: 20px;
+    cursor: default;
+}
+
+#toggle_info_login:checked + .login_info{
+    display: block;
 }
 
 #btnCreateZoom {
@@ -125,4 +131,18 @@
     color: white;
     padding: 10px;
     cursor: pointer;
+}
+
+.login_info p {
+    color: white;
+    text-align: left;
+}
+
+#homeBtnLogOut {
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: 1px solid gray;
+    background-color: antiquewhite;
+    margin: 15px auto 0;
 }
