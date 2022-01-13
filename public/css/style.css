@@ -211,6 +211,7 @@
 
 .user_card {
     border-radius: 6px;
+    background-color: #23252a;
 }
 
 .user_card img, .user_card video {
@@ -272,6 +273,8 @@
     /* width: 48%; */
     width: fit-content;
     max-height: 48%;
+    min-width: 500px;
+    
 }
 
 
@@ -281,7 +284,7 @@
 }
 
 .grid_3_4 > .user_card {
-    /* width: 48%; */
+    min-width: 333px;
     width: fit-content;
     max-height: 32%;
     /* flex-grow: 1; */

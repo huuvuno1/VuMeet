@@ -2,7 +2,7 @@ const DB = new Map()
 
 // Map {
 //     zoomid: Map{
-//         "mail@gmail.com": {
+//         "socketid_sdkafjsdkaf": {
 //             info: {
 //                 name: "Nguyen Van A",
 //                 avatar: "https://photo.com/idid",
@@ -12,7 +12,7 @@ const DB = new Map()
 //         }
 //     },
 //     zoomid2: Map{
-//         "mail@gmail.com": {
+//         "socketid_sdkafjsdkaf": {
 //             info: {
 //                 name: "Nguyen Van A",
 //                 avatar: "https://photo.com/idid",
@@ -23,15 +23,33 @@ const DB = new Map()
 //     }
 // }
 
+/**
+ * // users.set(user.email, {
+    //     info: user,
+    //     peer: new Set()
+    // })
+ */
+
 const Zoom = {}
 
 Zoom.addZoom = (user, zoom_id) => {
     const users = new Map()
-    // users.set(user.email, {
-    //     info: user,
-    //     peer: new Set()
-    // })
     DB.set(zoom_id, users)
+}
+
+Zoom.addUserToZoom = ({id, user, zoom_id}) => {
+    const users = DB.get(zoom_id)
+    if (!users) return
+    users.set(id, {
+        info: user,
+        peer: new Set()
+    })
+}
+
+Zoom.outRoom = ({id, zoom_id}) => {
+    const users = DB.get(zoom_id)
+    if (!users) return
+    users.delete(id)
 }
 
 Zoom.getData = () => DB

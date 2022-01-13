@@ -7,6 +7,7 @@ function routerConfig(app) {
     app.get('/', AuthMiddleware.auth,  HomeController.getHomePage)
     app.get('/logout', HomeController.logout)
     app.get('/:id', AuthMiddleware.auth, ZoomController.getPage)
+    
 
     
     app.post('/api/login', ApiController.login)
