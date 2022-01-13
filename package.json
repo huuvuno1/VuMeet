@@ -16,6 +16,7 @@
   "author": "Nguyen Huu Vu",
   "license": "ISC",
   "dependencies": {
+    "cookie": "^0.4.1",
     "cookie-parser": "^1.4.6",
     "crypto": "^1.0.1",
     "dotenv": "^11.0.0",

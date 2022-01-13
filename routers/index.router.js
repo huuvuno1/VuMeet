@@ -8,7 +8,7 @@ function routerConfig(app) {
     app.get('/logout', HomeController.logout)
     app.get('/:id', AuthMiddleware.auth, ZoomController.getPage)
 
-    // api
+    
     app.post('/api/login', ApiController.login)
     app.post('/api/zooms', AuthMiddleware.auth, ApiController.createZoom)
 }

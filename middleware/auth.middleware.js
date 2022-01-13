@@ -10,7 +10,6 @@ AuthMiddleware.auth = async (req, res, next) => {
         req.payload = payload
         next()
     } catch (err){
-        console.log(err)
         res.render('index', {email: ''})
     }
 }
