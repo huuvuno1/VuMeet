@@ -70,7 +70,9 @@
 .b-1 {
     border: 1px solid;
 }
-
+.bg-gray {
+    background-color: #3C4043;
+}
 .text-18 {
     font-size: 18px;
 }
@@ -274,7 +276,7 @@
 
 
 .grid_3_4 {
-    justify-content: flex-start;
+    justify-content: space-evenly;
     
 }
 
@@ -282,5 +284,6 @@
     /* width: 48%; */
     width: fit-content;
     max-height: 32%;
-    flex-grow: 1;
+    /* flex-grow: 1; */
 }
+
