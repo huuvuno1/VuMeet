@@ -61,6 +61,9 @@
     justify-content: center;
 }
 
+.end {
+    justify-content: end;
+}
 .cursor-pointer {
     cursor: pointer;
 }
@@ -145,4 +148,139 @@
     border: 1px solid gray;
     background-color: antiquewhite;
     margin: 15px auto 0;
+}
+
+/* end home  */
+
+.bg-red {
+    background-color: #EA4335;
+}
+
+/* zoom css */
+#zoom_page {
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    background-color: #202124
+}
+
+.option {
+    background-color: #202124;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 75px;
+    padding: 20px 20px;
+}
+
+.option_item {
+    padding: 9px;
+    margin: 0 6px;
+    cursor: pointer;
+}
+
+.option_item i {
+    font-size: 20px;
+}
+
+.right_option .option_item {
+    margin: 0 3px;
+}
+
+.right_option .option_item i {
+    font-size: 25px;
+}
+/* end */
+
+.left_option, .center_option, .right_option {
+    width: calc(100%/3);
+    flex-grow: 1;
+}
+
+.grid_users {
+    padding: 20px;
+}
+
+.user_item .user_content {
+    height: 100%;
+    max-width: 100%;   
+}
+
+.user_card {
+    border-radius: 6px;
+}
+
+.user_card img, .user_card video {
+    border-radius: 6px;
+}
+
+.main_views {
+    height: calc(100% - 75px);
+}
+
+.user_name {
+    bottom: 20px;
+    left: 20px;
+}
+
+.user_mic {
+    top: 20px;
+    right: 20px;
+}
+
+/* grid users */
+.grid_users {
+    flex-wrap: wrap;
+}
+
+.grid_1_2 > div:nth-child(1){
+    position: absolute;
+    width: 250px;
+    height: 150px;
+    bottom: 30px;
+    right: 70px;
+    z-index: 2000;
+}
+
+.grid_1_2 > div:nth-child(1) .user_mic {
+    top: 8px;
+    right: 8px;
+}
+
+.grid_1_2 > div:nth-child(1) .user_name {
+    bottom: 8px;
+    left: 10px;
+}
+
+
+/* grid_2_2 */
+.grid_users {
+    margin: 0 auto;
+}
+.grid_2_2 {
+    max-width: 1200px;
+}
+
+.grid_2_2 {
+    justify-content: space-around;
+}
+
+.grid_2_2 > .user_card {
+    /* width: 48%; */
+    width: fit-content;
+    max-height: 48%;
+}
+
+
+.grid_3_4 {
+    justify-content: flex-start;
+    
+}
+
+.grid_3_4 > .user_card {
+    /* width: 48%; */
+    width: fit-content;
+    max-height: 32%;
+    flex-grow: 1;
 }
