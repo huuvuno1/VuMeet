@@ -64,7 +64,7 @@
     </header>
 
     <div class="container">
-        <button id="btnCreateZoom">Tạo cuộc họp tức thì</button>
+        <button id="btnCreateZoom" onclick="createZoom()">Tạo cuộc họp tức thì</button>
     </div>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
@@ -100,6 +100,16 @@
 
         function logout() {
             location.href = '/logout'
+        }
+
+        function createZoom() {
+            fetch('/api/zooms', {method: 'POST'})
+                .then(response => response.json())
+                .then(data => location.href = `/${data.zoom_id}`)
+                .catch(err => {
+                    console.log(err)
+                    alert('loi roi, doc log di')
+                })
         }
     </script>
     
