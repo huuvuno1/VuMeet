@@ -32,7 +32,9 @@
 .content-center {
     justify-content: center;
 }
-
+.fixed {
+    position: fixed;
+}
 .w-full {
     width: 100%;
 }
@@ -237,21 +239,22 @@
     flex-wrap: wrap;
 }
 
-.grid_1_2 > div:nth-child(1){
+.grid_1_2 > .my_div{
     position: absolute;
     width: 250px;
     height: 150px;
     bottom: 30px;
     right: 70px;
     z-index: 2000;
+    background-color: #202124 !important;
 }
 
-.grid_1_2 > div:nth-child(1) .user_mic {
+.grid_1_2 > .my_div .user_mic {
     top: 8px;
     right: 8px;
 }
 
-.grid_1_2 > div:nth-child(1) .user_name {
+.grid_1_2 > .my_div .user_name {
     bottom: 8px;
     left: 10px;
 }
@@ -290,3 +293,68 @@
     /* flex-grow: 1; */
 }
 
+.toast_user_out {
+    bottom: 130px;
+    left: 40px;
+    padding: 8px 20px 10px;
+    background-color: #3C4043;
+    border-radius: 4px;
+    z-index: 3000;
+}
+
+.toast_user_out h1 {
+    display: inline;
+}
+
+/* prev */
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+.prev_left {
+    width: 60%;
+}
+.prev_right {
+    width: 40%;
+}
+.prev_micro, .prev_camera {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.prev_micro i, .prev_camera i {
+    color: white;
+    font-size: 20px;
+}
+
+.prev_wrap_video {
+    width: 700px;
+    height: 400px;
+    overflow:hidden;
+    border-radius: 5px;
+    background-color: #1f1c1c;
+}
+
+.prev_video {
+    
+    background-color: #1f1c1c;
+    border-radius: 5px;
+    width: 100%;
+    
+    display:block;
+}
+
+.prev_option {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 70px;
+}
+
+#app {
+    height: 100vh;
+    width: 100vw;
+}

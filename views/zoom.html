@@ -18,100 +18,168 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body id="zoom_page">
-    <div class="main_views">
-        <!-- 
-            2 users: grid_1_2
-            3, 4 users: grid_2_2
-            5-> 9: grid_3_4
-         -->
-        <div class="grid_users h-full relative flex center grid_2_2">
-            <div class="user_card h-full w-full relative">
-                <div class="user_mic absolute">
-                    <i class='bx bxs-microphone-off' ></i>
+<body style="background-color: white;">
+    <div id="app" class="none">
+        <div class="main_views">
+            <!-- 
+                2 users: grid_1_2
+                3, 4 users: grid_2_2
+                5-> 9: grid_3_4
+             -->
+            <div class="grid_users h-full relative flex center grid_2_2">
+                <div class="user_card h-full w-full relative">
+                    <div class="user_mic absolute">
+                        <i class='bx bxs-microphone-off' ></i>
+                    </div>
+                    <div class="user_item w-full h-full flex align-center center">
+                        <!-- <video class="user_content" src="" controls></video> -->
+                        <img class="user_content" src="../public/img/hình-nền-máy-tính-đẹp.jpg" alt="">
+                    </div>
+                    <div class="user_name absolute">
+                        <h1>Bạn</h1>
+                    </div>
                 </div>
-                <div class="user_item w-full h-full flex align-center center">
-                    <!-- <video class="user_content" src="" controls></video> -->
-                    <img class="user_content" src="../public/img/hình-nền-máy-tính-đẹp.jpg" alt="">
+                <div class="user_card h-full w-full relative">
+                    <div class="user_mic absolute">
+                        <i class='bx bxs-microphone-off' ></i>
+                    </div>
+                    <div class="user_item w-full h-full flex align-center center">
+                        <!-- <video class="user_content" src="" controls></video> -->
+                        <img class="user_content" src="../public/img/hình-nền-máy-tính-đẹp.jpg" alt="">
+                    </div>
+                    <div class="user_name absolute">
+                        <h1>Bạn</h1>
+                    </div>
                 </div>
-                <div class="user_name absolute">
-                    <h1>Bạn</h1>
+                <div class="user_card h-full w-full relative">
+                    <div class="user_mic absolute">
+                        <i class='bx bxs-microphone-off' ></i>
+                    </div>
+                    <div class="user_item w-full h-full flex align-center center">
+                        <!-- <video class="user_content" src="" controls></video> -->
+                        <img class="user_content" src="../public/img/hình-nền-máy-tính-đẹp.jpg" alt="">
+                    </div>
+                    <div class="user_name absolute">
+                        <h1>Bạn</h1>
+                    </div>
                 </div>
+                
             </div>
-            <div class="user_card h-full w-full relative">
-                <div class="user_mic absolute">
-                    <i class='bx bxs-microphone-off' ></i>
-                </div>
-                <div class="user_item w-full h-full flex align-center center">
-                    <!-- <video class="user_content" src="" controls></video> -->
-                    <img class="user_content" src="../public/img/hình-nền-máy-tính-đẹp.jpg" alt="">
-                </div>
-                <div class="user_name absolute">
-                    <h1>Bạn</h1>
-                </div>
+    
+            <!-- khi user click search user, xem comment.... thi cai nay hien ra -->
+            <div class="sidebar none">
+    
             </div>
-            <div class="user_card h-full w-full relative">
-                <div class="user_mic absolute">
-                    <i class='bx bxs-microphone-off' ></i>
-                </div>
-                <div class="user_item w-full h-full flex align-center center">
-                    <!-- <video class="user_content" src="" controls></video> -->
-                    <img class="user_content" src="../public/img/hình-nền-máy-tính-đẹp.jpg" alt="">
-                </div>
-                <div class="user_name absolute">
-                    <h1>Bạn</h1>
-                </div>
-            </div>
+    
             
         </div>
-
-        <!-- khi user click search user, xem comment.... thi cai nay hien ra -->
-        <div class="sidebar none">
-
+        
+        <div class="option flex space-between align-center">
+            <div class="left_option">
+                <span class="present_time">12:59</h1>
+                <span style="margin: 0 5px;"> | </span>
+                <span class="zoom_id">vdx-123-xxx</h1>
+            </div>
+            <div class="center_option flex center">
+                <div class="option_item round-full bg-red flex align-center center">
+                    <i class='bx bxs-microphone-off'></i>
+                </div>
+                <div class="option_item round-full bg-red flex align-center center">
+                    <i class='bx bx-camera-movie'></i>
+                </div>
+                <div class="option_item round-full bg-gray flex align-center center">
+                    <i class='bx bxs-hand'></i>
+                </div>
+                <div class="option_item round-full bg-gray flex align-center center">
+                    <i class='bx bxs-slideshow'></i>
+                </div>
+                <div class="option_item round-full bg-gray flex align-center center">
+                    <i class='bx bx-dots-vertical-rounded'></i>
+                </div>
+                <div class="option_item round-full bg-red flex align-center center" style="padding: 0 18px;">
+                    <i class='bx bx-phone-off'></i>
+                </div>
+            </div>
+            <div class="right_option flex end">
+                <div class="option_item round-full flex align-center center">
+                    <i class='bx bx-camera-movie'></i>
+                </div>
+                <div class="option_item round-full flex align-center center">
+                    <i class='bx bx-camera-movie'></i>
+                </div>
+                <div class="option_item round-full flex align-center center">
+                    <i class='bx bx-camera-movie'></i>
+                </div>
+                <div class="option_item round-full flex align-center center">
+                    <i class='bx bx-camera-movie'></i>
+                </div>
+                <div class="option_item round-full flex align-center center">
+                    <i class='bx bx-camera-movie'></i>
+                </div>
+            </div>
+        </div>
+    
+        <div class="toast_user_out fixed">
+            <h1>Nguyen Huu Vu</h1>
+            <span>da roi khoi cuoc hop</span>
         </div>
     </div>
-    
-    <div class="option flex space-between align-center">
-        <div class="left_option">
-            <span class="present_time">12:59</h1>
-            <span style="margin: 0 5px;"> | </span>
-            <span class="zoom_id">vdx-123-xxx</h1>
+    <header class="header_home flex space-between">
+        <a href="#" class="">
+            <img src="/img/logoo.png" class="h-36" alt="">
+        </a>
+        <div class="flex">
+            <div class="flex align-center text-18">
+                10:20 Th4, 5 Thg 1 2021
+            </div>
+            <div class="header_menu-center flex">
+                <div class="header_item flex round-full align-center center cursor-pointer">
+                    <i class='bx bxl-tiktok text-18'></i>
+                </div>
+                <div class="header_item flex round-full align-center center cursor-pointer">
+                    <i class='bx bxl-tiktok text-18'></i>
+                </div>
+                <div class="header_item flex round-full align-center center cursor-pointer">
+                    <i class='bx bxl-tiktok text-18'></i>
+                </div>
+            </div>
+            <div class="header_menu-end flex">
+                <!-- login thanh cong -->
+                <div class="header_item flex round-full align-center center cursor-pointer">
+                    <i class='bx bxl-tiktok text-18'></i>
+                </div>
+                <div class="header_item flex relative round-full align-center center cursor-pointer">
+                    <label for="toggle_info_login" class="cursor-pointer">
+                        <img src="<%= picture %>" class="header_image-login round-full b-1" alt="">
+                    </label>
+                    <input type="checkbox" name="toggle_info_login" id="toggle_info_login" hidden>
+                    <div class="login_info absolute none text-center">
+                        <p style="color: gold; margin-bottom: 5px">Tài khoản google</p>
+                        <p><%= name %></p>
+                        <p><%= email %></p>
+                        <button id="homeBtnLogOut" onclick="logout()">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="center_option flex center">
-            <div class="option_item round-full bg-red flex align-center center">
-                <i class='bx bxs-microphone-off'></i>
+    </header>
+    <div id="app">
+        <div class="flex container">
+            <div class="prev_left">
+                <div class="prev_wrap_video relative">
+                    <video src="" autoplay class="prev_video" muted></video>
+                    <div class="prev_option absolute flex center">
+                        <div class="prev_micro bg-red round-full flex align-center center">
+                            <i class='bx bxs-microphone-off'></i>
+                        </div>
+                        <div class="prev_camera bg-red round-full flex align-center center">
+                            <i class='bx bx-camera-movie'></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="option_item round-full bg-red flex align-center center">
-                <i class='bx bx-camera-movie'></i>
-            </div>
-            <div class="option_item round-full bg-gray flex align-center center">
-                <i class='bx bxs-hand'></i>
-            </div>
-            <div class="option_item round-full bg-gray flex align-center center">
-                <i class='bx bxs-slideshow'></i>
-            </div>
-            <div class="option_item round-full bg-gray flex align-center center">
-                <i class='bx bx-dots-vertical-rounded'></i>
-            </div>
-            <div class="option_item round-full bg-red flex align-center center" style="padding: 0 18px;">
-                <i class='bx bx-phone-off'></i>
-            </div>
-        </div>
-        <div class="right_option flex end">
-            <div class="option_item round-full flex align-center center">
-                <i class='bx bx-camera-movie'></i>
-            </div>
-            <div class="option_item round-full flex align-center center">
-                <i class='bx bx-camera-movie'></i>
-            </div>
-            <div class="option_item round-full flex align-center center">
-                <i class='bx bx-camera-movie'></i>
-            </div>
-            <div class="option_item round-full flex align-center center">
-                <i class='bx bx-camera-movie'></i>
-            </div>
-            <div class="option_item round-full flex align-center center">
-                <i class='bx bx-camera-movie'></i>
+            <div class="prev_right">
+                <button id="btnCreateZoom" onclick="createZoom()">Tạo cuộc họp tức thì</button>
             </div>
         </div>
     </div>

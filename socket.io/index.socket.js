@@ -18,11 +18,17 @@ function socketConfig(io) {
             Zoom.addZoom(payload)
         })
 
-        socket.on('add_user_to_zoom', zoom_id => {
+        socket.on('add_user_to_zoom', (zoom_id, peer_id) => {
+            console.log('peerid', peer_id)
             socket.zoom_id = zoom_id
+            socket.peer_id = peer_id
             socket.join(zoom_id)
             Zoom.addUserToZoom({...socket})
-            const data = Object.fromEntries(Zoom.getData().get(socket.zoom_id))
+            
+            const usersInZoom =  Zoom.getData().get(socket.zoom_id)
+            console.log('user in zoom', usersInZoom)
+            if (!usersInZoom) return
+            const data = Object.fromEntries(usersInZoom)
             socket.to(zoom_id).emit('list_users_in_room', data)
             socket.emit('list_users_in_room', data)
         })
@@ -30,11 +36,17 @@ function socketConfig(io) {
         socket.on('disconnect', zoom_id => {
             Zoom.outRoom({...socket})
             console.log(socket.user.email + " out phong")
-            if (!Zoom.getData().get(socket.zoom_id))
+            const usersInZoom = Zoom.getData().get(socket.zoom_id)
+            if (!usersInZoom)
                 return
+            if (usersInZoom.size == 0) {
+                usersInZoom.delete(socket.zoom_id)
+                console.log('delete zoom')
+                return
+            }
+
             const data = Object.fromEntries(Zoom.getData().get(socket.zoom_id))
-            socket.to(socket.zoom_id).emit('list_users_in_room', data)
-            socket.emit('list_users_in_room', data)
+            socket.to(socket.zoom_id).emit('list_users_in_room', data, socket.peer_id)
         })
     })
 }

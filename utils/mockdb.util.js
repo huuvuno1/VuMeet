@@ -1,5 +1,37 @@
 const DB = new Map()
 
+const Zoom = {}
+
+Zoom.addZoom = (user, zoom_id) => {
+    const users = new Map()
+    DB.set(zoom_id, users)
+}
+
+Zoom.addUserToZoom = ({id, user, zoom_id, peer_id}) => {
+    const users = DB.get(zoom_id)
+    if (!users) return
+    users.set(id, {
+        info: user,
+        peer: peer_id
+    })
+}
+
+Zoom.outRoom = ({id, zoom_id}) => {
+    const users = DB.get(zoom_id)
+    if (!users) return
+    users.delete(id)
+}
+
+Zoom.getZoom = (zoom_id) => {
+    return DB.get(zoom_id)
+}
+
+Zoom.getData = () => DB
+
+module.exports = Zoom
+
+
+
 // Map {
 //     zoomid: Map{
 //         "socketid_sdkafjsdkaf": {
@@ -29,29 +61,3 @@ const DB = new Map()
     //     peer: new Set()
     // })
  */
-
-const Zoom = {}
-
-Zoom.addZoom = (user, zoom_id) => {
-    const users = new Map()
-    DB.set(zoom_id, users)
-}
-
-Zoom.addUserToZoom = ({id, user, zoom_id}) => {
-    const users = DB.get(zoom_id)
-    if (!users) return
-    users.set(id, {
-        info: user,
-        peer: new Set()
-    })
-}
-
-Zoom.outRoom = ({id, zoom_id}) => {
-    const users = DB.get(zoom_id)
-    if (!users) return
-    users.delete(id)
-}
-
-Zoom.getData = () => DB
-
-module.exports = Zoom
