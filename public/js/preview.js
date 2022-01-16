@@ -77,14 +77,13 @@ function toggleCamera(isPreview) {
     if (camMicStatus.cam === false) {
         console.log('turn off cam')
         const track = myStream.getVideoTracks()[0]
+        track.enabled = false
         track.stop()
-        myStream.removeTrack(track)
-        PeerStream.outStream
-        
     } else {
         // bat cam
         navigator.getUserMedia({ video: true, audio: false }, 
             stream => {
+                myStream.removeTrack(myStream.getVideoTracks()[0])
                 myStream.addTrack(stream.getVideoTracks()[0])
                 socket.emit('toggle_camera', camMicStatus.cam)
                 replaceTrackCamera()

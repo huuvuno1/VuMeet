@@ -15,8 +15,23 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
     // chay 1 lan duy nhat
     if (call_all_zoom) {
         data.forEach((v, k) => {
+            const type = myStream.getVideoTracks()[0].enabled ? 'on' : 'off'
+            const options = {
+                'constraints': {
+                  'mandatory': {
+                    'OfferToReceiveAudio': true,
+                    'OfferToReceiveVideo': true
+                  },
+                  offerToReceiveAudio: 1,
+                  offerToReceiveVideo: 1,
+                },
+                'metadata': {"type":type}
+              }
+        
             if (!PeerStream.outStream.get(v.peer) && !PeerStream.inStream.get(v.peer) && v.peer != myPeer.id) {
-                const call = myPeer.call(v.peer, myStream)
+                
+                const call = myPeer.call(v.peer, myStream, options)
+                console.log("call to user")
                 call.on('stream', stream => {
                     testStream = stream
                     console.log('peer', stream)
