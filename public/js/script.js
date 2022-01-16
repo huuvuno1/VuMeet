@@ -21,7 +21,6 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
                     testStream = stream
                     console.log('peer', stream)
                     addStreamToView(v.peer, stream)
-                    stream.getVideoTracks()[0].addEventListener('ended', () => console.log('change cam envent'))
                 })
                 PeerStream.outStream.set(v.peer, call)
             }
@@ -220,3 +219,19 @@ function pinOrUpinContent(_this) {
     const card = _this.parentElement.parentElement
     return card.parentElement.removeChild(card)
 }
+
+
+
+socket.on('user_toggle_camera', (peer_id, status) => {
+    const wrap = $('#__' + peer_id)
+    if (!wrap) return
+    
+    const video =  $('#___' + peer_id)
+    if (status){
+        video.classList.remove('none')
+        video.parentElement.children[1].classList.add('none')
+    } else {
+        video.classList.add('none')
+        video.parentElement.children[1].classList.remove('none')
+    }
+})

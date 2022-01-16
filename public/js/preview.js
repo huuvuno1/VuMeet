@@ -75,22 +75,38 @@ function toggleCamera(isPreview) {
     if (!myStream) return
 
     if (camMicStatus.cam === false) {
-        console.log('turn off')
+        console.log('turn off cam')
         const track = myStream.getVideoTracks()[0]
         track.stop()
         myStream.removeTrack(track)
+        PeerStream.outStream
+        
     } else {
+        // bat cam
         navigator.getUserMedia({ video: true, audio: false }, 
             stream => {
                 myStream.addTrack(stream.getVideoTracks()[0])
-                
+                socket.emit('toggle_camera', camMicStatus.cam)
+                replaceTrackCamera()
             }, 
             err => {
                 alert('Lỗi r, đọc log')
                 console.log(err)
             })
     }
+
+    // thong bao cho users de hien thi avatar thay th
+    if ((PeerStream.inStream.size > 0 || PeerStream.outStream.size > 0) && socket) {
+        socket.emit('toggle_camera', camMicStatus.cam)
+    }
     
+}
+
+function replaceTrackCamera() {
+    const merge = new Map([...PeerStream.inStream, ...PeerStream.outStream])
+    merge.forEach((value, k) => {
+        value.peerConnection.getSenders()[1].replaceTrack(myStream.getVideoTracks()[0])
+    })
 }
 
 function toggleMicro(isPreview) {
