@@ -26,7 +26,6 @@ function socketConfig(io) {
             Zoom.addUserToZoom({...socket})
             
             const usersInZoom =  Zoom.getData().get(socket.zoom_id)
-            console.log('user in zoom', usersInZoom)
             if (!usersInZoom) return
             const data = Object.fromEntries(usersInZoom)
             socket.to(zoom_id).emit('list_users_in_room', data)
@@ -45,6 +44,11 @@ function socketConfig(io) {
 
         socket.on('send_chat', text => {
             socket.to(socket.zoom_id).emit('receive_chat', socket.user.name, text)
+        })
+
+
+        socket.on('toggle_camera', status => {
+            socket.to(socket.zoom_id).emit('user_toggle_camera', socket.peer_id, status)
         })
 
         socket.on('disconnect', zoom_id => {

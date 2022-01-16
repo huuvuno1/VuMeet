@@ -11,7 +11,6 @@ myPeer.on('open', function(id) {
 let testOnCall
 
 myPeer.on('call', (call) => {
-    console.log('co ng goi den', call)
     call.answer(myStream)
     call.on('stream', (stream) => {
 
@@ -35,15 +34,12 @@ myPeer.on('call', (call) => {
         }
 
         let video = $('#___' + call.peer)
-        
-        // show video
-        video.classList.remove('none')
-        
-        // set flag to video
-        video.classList.add('flag__' + call.peer)
-
         video.srcObject = stream
-        video.parentElement.children[1].classList.add('none')
+        if (call.metadata.type == 'on') {
+            video.parentElement.children[1].classList.add('none')
+            video.classList.remove('none')
+        }
+        
     })
 
     call.on('error', err => {

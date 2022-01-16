@@ -15,13 +15,27 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
     // chay 1 lan duy nhat
     if (call_all_zoom) {
         data.forEach((v, k) => {
+            const type = myStream.getVideoTracks()[0].enabled ? 'on' : 'off'
+            const options = {
+                'constraints': {
+                  'mandatory': {
+                    'OfferToReceiveAudio': true,
+                    'OfferToReceiveVideo': true
+                  },
+                  offerToReceiveAudio: 1,
+                  offerToReceiveVideo: 1,
+                },
+                'metadata': {"type":type}
+              }
+        
             if (!PeerStream.outStream.get(v.peer) && !PeerStream.inStream.get(v.peer) && v.peer != myPeer.id) {
-                const call = myPeer.call(v.peer, myStream)
+                
+                const call = myPeer.call(v.peer, myStream, options)
+                console.log("call to user")
                 call.on('stream', stream => {
                     testStream = stream
                     console.log('peer', stream)
                     addStreamToView(v.peer, stream)
-                    stream.getVideoTracks()[0].addEventListener('ended', () => console.log('change cam envent'))
                 })
                 PeerStream.outStream.set(v.peer, call)
             }
@@ -220,3 +234,19 @@ function pinOrUpinContent(_this) {
     const card = _this.parentElement.parentElement
     return card.parentElement.removeChild(card)
 }
+
+
+
+socket.on('user_toggle_camera', (peer_id, status) => {
+    const wrap = $('#__' + peer_id)
+    if (!wrap) return
+    
+    const video =  $('#___' + peer_id)
+    if (status){
+        video.classList.remove('none')
+        video.parentElement.children[1].classList.add('none')
+    } else {
+        video.classList.add('none')
+        video.parentElement.children[1].classList.remove('none')
+    }
+})
