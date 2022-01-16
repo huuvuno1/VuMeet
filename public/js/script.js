@@ -11,6 +11,8 @@ let call_all_zoom = true
 
 socket.on('list_users_in_room', (users_str, peer_id) => {
     const data = new Map(Object.entries(users_str))
+
+    // chay 1 lan duy nhat
     if (call_all_zoom) {
         data.forEach((v, k) => {
             if (!PeerStream.outStream.get(v.peer) && !PeerStream.inStream.get(v.peer) && v.peer != myPeer.id) {
@@ -27,6 +29,21 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
         call_all_zoom = false
     }
     
+
+    // share screen cho user moi
+    data.forEach((v, k) => {
+        // khog lien quan code tren
+        if (!PeerStream.outShareScreen.get(v.peer) && myStreamShareScreen && v.peer != myPeer.id) {
+            socket.emit('start_share_screen')
+
+            socket.on('start_share_screen_reply', () => {
+                const call = myPeer.call(v.peer, myStreamShareScreen)
+                PeerStream.outShareScreen.set(v.peer, call)
+            })
+            
+        }
+    })
+    
     
     console.log('sdlkfj')
     
@@ -40,14 +57,16 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
         // show toast
         UsersInRoom.forEach((v, k) => {
             if (v.peer == peer_id) {
-                const toast = createToastUserOut(v.info.name)
-                $('body').appendChild(toast)
-                setTimeout(() => {
-                    $('body').removeChild(toast)
-                }, 3000)
+                makeToastUserOut(v.info.name, 1)
             }
         })
-        return
+
+        // close and remove peer connection
+        let call = PeerStream.inStream.get(peer_id) || PeerStream.outStream.get(peer_id)
+        if (call) call.close()
+        PeerStream.inStream.delete(peer_id)
+        PeerStream.outStream.delete(peer_id)
+        console.log('disconnect with peer: ', peer_id)
     }
 
     UsersInRoom = data
@@ -55,45 +74,67 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
     if ($('#temp_user_data')) {
         wrapUsers.innerHTML = ''
     }
+
+    // render
     updateGridView(UsersInRoom.size)
     UsersInRoom.forEach((v, k) => {
         let check = $('#__' + v.peer)
         if (check) return
         const userDom = createUserCard({...v.info}, k, v.peer)
         wrapUsers.appendChild(userDom)
+        makeToastUserOut(v.info.name, 2)
     })
     
 // lung tung
     if (camMicStatus.cam) {
+        console.log('vao day')
         const myVideo = $('#___' + myPeer.id)
+        myVideo.srcObject = myStream
         let img = myVideo.parentElement.children[1]
         myVideo.classList.remove('none')
-        myVideo.srcObject = myStream
         img.classList.add('none')
     }
-
-
-    // UsersInRoom.forEach((v, k) => {
-    //     if (k == socket.id || PeerStream.outStream.get(v.peer))
-    //         return
-
-    //     const call = myPeer.call(v.peer, myStream)
-    //     call.on('stream', stream => {
-    //         console.log(stream)
-    //     })
-    //     PeerStream.outStream.set(v.peer, call)
-
-    // })
 })
 
-function createToastUserOut(name) {
+// thong bao co user moi share
+socket.on('user_share_screen', (peer_id, name) => {
+    console.log('chao')
+    if (listShareScreen.has(peer_id))
+        return
+
+    listShareScreen.add(peer_id)
+    renderShareScreenDom(peer_id, null, false)
+})
+
+
+socket.on('stop_share_screen', peer_id => {
+    listShareScreen.delete(peer_id)
+    const div = $('#__sharescreen_' + peer_id)
+    const parent = div.parentElement
+
+    // đang được ghim
+    if (parent.classList.contains('slideshow')) {
+        $('.main_views').classList.remove('slideshow_active')
+    }
+    parent.removeChild(div)
+})
+/**
+ * 
+ * @param {*} name 
+ * @param {*} id_message 1: out, 2 in
+ * @returns 
+ */
+function makeToastUserOut(name, id_message) {
     const div = document.createElement('div')
     div.classList.add('toast_user_out', 'fixed')
     div.innerHTML = `
                         <h1>${name}</h1>
-                        <span>đã rời khỏi cuộc họp</span>
+                        <span>${id_message == 1 ? 'đã rời khỏi cuộc họp' : 'đã tham gia cuộc họp'}</span>
                     `
-    return div
+    $('body').appendChild(div)
+    setTimeout(() => {
+        $('body').removeChild(div)
+    }, 3000)
 }
 
 function updateGridView(num) {
@@ -122,6 +163,14 @@ function createUserCard({name, picture}, key, peer_id) {
                     <video class="user_content none" src=""  id="___${peer_id}" autoplay ${socket.id == key ? 'muted' : ''}></video>
                     <img class="user_content" src="${picture}" alt="">
                 </div>
+                <div class="card_option flex align-center center absolute">
+                        <div class="card_option_item">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                        <div class="card_option_item">
+                            <i class='bx bx-pin'></i>
+                        </div>
+                    </div>
                 <div class="user_name absolute">
                     <h1>${socket.id == key ? 'Bạn' : name}</h1>
                 </div>`
@@ -130,3 +179,44 @@ function createUserCard({name, picture}, key, peer_id) {
 }
 
 
+
+// ui
+function toggleSideBar(_this) {
+    const div = document.querySelector('.div_top')
+    const sidebar = document.querySelector('.sidebar')
+    const sidebar_content = document.querySelector('.sidebar_content')
+    if (div.classList.contains('sidebar_active')) {
+        sidebar.classList.remove('slide_in')
+        sidebar_content.classList.add('content_none')
+        sidebar.classList.add('slide_out')
+
+        setTimeout(() => {
+            div.classList.remove('sidebar_active')
+            sidebar.classList.remove('slide_out')
+            sidebar.classList.add('slide_in')
+            sidebar_content.classList.remove('content_none')
+        }, 300)
+
+        
+    } else {
+        sidebar_content.classList.add('content_none')
+        div.classList.add('sidebar_active')
+        setTimeout(() => {
+            sidebar_content.classList.remove('content_none')
+        }, 600)
+    }
+}
+
+// function toggleSideBar(_this) {
+//     const div = document.querySelector('.div_top')
+//     if (div.classList.contains('sidebar_active')) {
+//         div.classList.remove('sidebar_active')
+//     } else {
+//         div.classList.add('sidebar_active')
+//     }
+// }
+
+function pinOrUpinContent(_this) {
+    const card = _this.parentElement.parentElement
+    return card.parentElement.removeChild(card)
+}

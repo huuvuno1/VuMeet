@@ -33,6 +33,20 @@ function socketConfig(io) {
             socket.emit('list_users_in_room', data)
         })
 
+        socket.on('start_share_screen', () => {
+            // console.log('payload', socket.payload)
+            socket.to(socket.zoom_id).emit('user_share_screen', socket.peer_id, socket.user.name)
+            socket.emit('start_share_screen_reply')
+        })
+
+        socket.on('stop_share_screen', () => {
+            socket.to(socket.zoom_id).emit('stop_share_screen', socket.peer_id)
+        })
+
+        socket.on('send_chat', text => {
+            socket.to(socket.zoom_id).emit('receive_chat', socket.user.name, text)
+        })
+
         socket.on('disconnect', zoom_id => {
             Zoom.outRoom({...socket})
             console.log(socket.user.email + " out phong")

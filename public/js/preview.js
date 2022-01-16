@@ -11,9 +11,11 @@ const myPeer = new Peer()
 const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
 let myStream
+let myStreamShareScreen
 const btnCamera = $('#btnCamera')
 const btnMicro = $('#btnMicro')
 const btnShareScreen = $('#btnShareScreen')
+let listShareScreen = new Set()
 
 const camMicStatus = {
     cam: true,
@@ -22,13 +24,16 @@ const camMicStatus = {
 
 const PeerStream = {
     outStream: new Map(),
-    inStream: new Map()
+    inStream: new Map(),
+    outShareScreen: new Map()
 }
 
 navigator.getUserMedia({video: true, audio: true}, stream => {
     myStream = stream
-    $('.prev_video').srcObject= stream
-    $('.prev_video').onloadeddata = function() {
+    const prev_video = $('.prev_video')
+    if (!prev_video) return // user click nhanh qua dom chua kip loa
+    prev_video.srcObject= stream
+    prev_video.onloadeddata = function() {
         console.log('play')
         this.play()
     }
@@ -119,6 +124,7 @@ function toggleIconPrevMicro() {
 
 function joinZoom() {
     socket.emit('add_user_to_zoom', location.pathname.substring(1), myPeer.id)
+    
     $('body').removeChild($('#app_prev'))
     $('#app').classList.remove('none')
     $('body').id = 'zoom_page'
@@ -130,10 +136,6 @@ function joinZoom() {
     }
     if (camMicStatus.mic)
         toggleIconMicro()
-
-
-
-    
 
     
 }
