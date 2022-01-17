@@ -137,7 +137,8 @@ function shareScreenToAllUsers(stream) {
 }
 
 function renderShareScreenDom(peer_id, stream, isMyShare) {
-    const shareDom = createUserCard({name: '', picture: ''}, socket.id, 'sharescreen_' + peer_id)
+    let name = getName(peer_id)
+    const shareDom = createUserCard({name, picture: ''}, socket.id, 'sharescreen_' + peer_id)
     const video = shareDom.querySelector('video')
     if (stream)
         video.srcObject = stream
@@ -158,8 +159,12 @@ function renderShareScreenDom(peer_id, stream, isMyShare) {
 
         // event ended
         stream.getVideoTracks()[0].onended = function () {
-            $('.slideshow').removeChild(shareDom)
-            $('.main_views').classList.remove('slideshow_active')
+            try {
+                $('.slideshow').removeChild(shareDom)
+                $('.main_views').classList.remove('slideshow_active')
+            } catch {
+                wrapUsers.removeChild(shareDom)
+            }
             btnShareScreen.classList.remove('bg-green')
             stopShareScreen()
         };
@@ -172,6 +177,36 @@ function renderShareScreenDom(peer_id, stream, isMyShare) {
             wrapUsers.appendChild(shareDom)
         }
     }
+}
+
+function callAllUsers(data) {
+    data.forEach((v, k) => {
+        const type = myStream.getVideoTracks()[0].enabled ? 'on' : 'off'
+        const options = {
+            'constraints': {
+              'mandatory': {
+                'OfferToReceiveAudio': true,
+                'OfferToReceiveVideo': true
+              },
+              offerToReceiveAudio: 1,
+              offerToReceiveVideo: 1,
+            },
+            'metadata': {"type":type}
+          }
+    
+        if (!PeerStream.outStream.get(v.peer) && !PeerStream.inStream.get(v.peer) && v.peer != myPeer.id) {
+            
+            const call = myPeer.call(v.peer, myStream, options)
+            console.log("call to user")
+            call.on('stream', stream => {
+                testStream = stream
+                console.log('peer', stream)
+                addStreamToView(v.peer, stream)
+            })
+            PeerStream.outStream.set(v.peer, call)
+        }
+    })
+    call_all_zoom = false
 }
 
 function stopShareScreen() {
@@ -217,4 +252,13 @@ function isBothOpen() {
 
 function isBothStop() {
     return btnMicro.children[1].classList.contains('none') && btnCamera.children[1].classList.contains('none')
+}
+
+function getName(peer_id) {
+    let name = ''
+    UsersInRoom.forEach((v, k) => {
+        if (v.peer == peer_id)
+            name = v.info.name
+    })
+    return name
 }
