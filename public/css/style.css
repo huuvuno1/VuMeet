@@ -289,6 +289,12 @@
     max-width: 100%;   
     /* flex-grow: 1; */
 }
+.user_item img.user_content {
+    height: 150px !important;
+    width: 150px !important;
+    border-radius: 50%;
+    max-width: 70%;
+}
 
 .user_card {
     border-radius: 6px;
@@ -733,7 +739,7 @@
     background-color: rgb(233, 234, 236, 0.3);
 }
 
-.sidebar_content-header {
+.modal_setting-content .sidebar_content-header {
     height: 60px;
 }
 

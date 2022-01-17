@@ -32,11 +32,12 @@ function socketConfig(io) {
             socket.emit('list_users_in_room', data)
         })
 
-        // socket.on('start_share_screen', () => {
-        //     // console.log('payload', socket.payload)
-        //     socket.to(socket.zoom_id).emit('user_share_screen', socket.peer_id, socket.user.name)
-        //     socket.emit('start_share_screen_reply')
-        // })
+        socket.on('camera_is_off', receiver => {
+            Zoom.getZoom(socket.zoom_id).forEach((value, socket_id) => {
+                if (value.peer == receiver)
+                    io.to(socket_id).emit('camera_is_off', socket.peer_id)
+            });
+        })
 
         socket.on('stop_share_screen', () => {
             socket.to(socket.zoom_id).emit('stop_share_screen', socket.peer_id)

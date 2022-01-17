@@ -34,7 +34,6 @@ navigator.getUserMedia({video: { width: 1280, height: 720 }, audio: true}, strea
     if (!prev_video) return // user click nhanh qua dom chua kip loa
     prev_video.srcObject= stream
     prev_video.onloadeddata = function() {
-        console.log('play')
         this.play()
     }
 }, err => {
@@ -137,6 +136,11 @@ function toggleIconPrevMicro() {
 
 
 function joinZoom() {
+    if (!myStream) {
+        alert('từ từ bro ơi, load cam & mic đã')
+        return
+    }
+
     socket.emit('add_user_to_zoom', location.pathname.substring(1), myPeer.id)
     
     $('body').removeChild($('#app_prev'))

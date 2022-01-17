@@ -11,10 +11,20 @@ myPeer.on('open', function(id) {
 let testOnCall
 
 myPeer.on('call', (call) => {
+
     call.answer(myStream)
+
+    
+    
     call.on('stream', (stream) => {
 
-        console.log('vao stream')
+        // bên kia biết cam off mà bật ảnh lên thay thế video đen
+        if (!camMicStatus.cam) {
+            setTimeout(() => {
+                socket.emit('camera_is_off', call.peer)
+            }, 1000)
+        }
+
         testOnCall = stream
 
         // phòng tránh tự call chính mình(đã xử lý k để xảy ra)
@@ -208,6 +218,7 @@ function callAllUsers(data) {
     })
     call_all_zoom = false
 }
+
 
 function stopShareScreen() {
     myStreamShareScreen = null

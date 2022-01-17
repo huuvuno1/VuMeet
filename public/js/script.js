@@ -92,6 +92,11 @@ socket.on('user_share_screen', (peer_id, name) => {
     
 })
 
+socket.on('camera_is_off', peer_id => {
+    console.log('user cam off', new Date().getTime())
+    $('#___' + peer_id).classList.add('none')
+    $('#___' + peer_id).parentElement.children[1].classList.remove('none')
+})
 
 socket.on('stop_share_screen', peer_id => {
     listShareScreen.delete(peer_id)
