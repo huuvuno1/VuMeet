@@ -71,7 +71,7 @@
             <div class="sidebar none slide_in">
                 <div class="sidebar_content relative">
                     <!-- box chat -->
-                    <div class="box_chat w-full h-full">
+                    <div class="box_chat w-full h-full none">
                         <div class="sidebar_content-header flex align-center space-between">
                             <h1 class="noselect">
                                 Tin nhắn trong cuộc họp
@@ -87,6 +87,40 @@
                         <div class="box_typing absolute">
                             <input type="text" name="" id="inpChat" placeholder="Gửi tin nhắn cho mọi người">
                             <i class='bx bx-send cursor-pointer absolute noselect' id="btnSendChat"></i>
+                        </div>
+                    </div>
+
+                    <div class="zoom_info w-full h-full none">
+                        <div class="sidebar_content-header flex align-center space-between">
+                            <h1 class="noselect">
+                                Chi tiết về cuộc họp
+                            </h1>
+                            <h1 class="slide_bar-close absolute round-full cursor-pointer">&times;</h1>
+                        </div>
+                        
+                        <div class="box_chat-content">
+                            <h2 class="noselect" style="margin: 30px 0 10px;">Thông tin về cách tham gia</h2>
+                            <p style="margin-bottom: 20px;" id="link_zoom"></p>
+                            <div class="text-blue cursor-pointer" onclick="copy()">
+                                <i class='bx bx-copy text-blue' ></i> Sao chép thông tin về cách tham gia
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="users_in_zoom w-full h-full none">
+                        <div class="sidebar_content-header flex align-center space-between">
+                            <h1 class="noselect">
+                                Chi tiết về cuộc họp
+                            </h1>
+                            <h1 class="slide_bar-close absolute round-full cursor-pointer">&times;</h1>
+                        </div>
+                        
+                        <div class="box_chat-content">
+                            <h2>Thông tin về cách tham gia</h2>
+                            <p>http</p>
+                            <div>
+                                <i class='bx bx-copy' ></i> Sao chép thông tin về cách tham gia
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -123,20 +157,14 @@
                 </div>
             </div>
             <div class="right_option flex end">
-                <div class="option_item round-full flex align-center center">
-                    <i class='bx bx-camera-movie'></i>
+                <div class="option_item round-full flex align-center center" data-sidebar_item="zoom_info" onclick="toggleSideBar(this)">
+                    <i class='bx bxs-info-circle'></i>
                 </div>
-                <div class="option_item round-full flex align-center center">
-                    <i class='bx bx-camera-movie'></i>
+                <div class="option_item round-full flex align-center center" data-sidebar_item="users_in_zoom" onclick="toggleSideBar(this)">
+                    <i class='bx bxs-user-account'></i>
                 </div>
-                <div class="option_item round-full flex align-center center" onclick="toggleSideBar(this)">
+                <div class="option_item round-full flex align-center center" data-sidebar_item="box_chat" onclick="toggleSideBar(this)">
                     <i class='bx bxs-conversation'></i>
-                </div>
-                <div class="option_item round-full flex align-center center">
-                    <i class='bx bx-camera-movie'></i>
-                </div>
-                <div class="option_item round-full flex align-center center">
-                    <i class='bx bx-camera-movie'></i>
                 </div>
             </div>
         </div>
@@ -217,6 +245,9 @@
     <script src="/lib/peerjs.min.js"></script>
     <script src="/lib/socket.io.min.js"></script>
     <script src="/js/preview.js"></script>
+    <script>
+        $('#link_zoom').innerText = location.href
+    </script>
     <script src="/js/script.js"></script>
     <script src="/js/handle.peer.js"></script>
     <script src="/js/chat.js"></script>
