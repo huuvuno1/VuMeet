@@ -32,8 +32,8 @@ function sendChat() {
 }
 
 function renderContentChat(name, content) {
-    let time = new Date();
-    let time_c = time.getHours() + ":" + time.getMinutes()
+    
+    let time_c = getTime()
 
     const div = document.createElement('div')
     div.classList.add('wrap_chat')
@@ -49,4 +49,9 @@ function renderContentChat(name, content) {
     div.querySelector('.chat_content').innerText = content
 
     $('.box_chat-content').appendChild(div)
+}
+
+function getTime() {
+    let time = new Date();
+    return time.getHours() + ":" + time.getMinutes()
 }

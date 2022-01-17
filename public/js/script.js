@@ -14,33 +14,7 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
 
     // chay 1 lan duy nhat
     if (call_all_zoom) {
-        data.forEach((v, k) => {
-            const type = myStream.getVideoTracks()[0].enabled ? 'on' : 'off'
-            const options = {
-                'constraints': {
-                  'mandatory': {
-                    'OfferToReceiveAudio': true,
-                    'OfferToReceiveVideo': true
-                  },
-                  offerToReceiveAudio: 1,
-                  offerToReceiveVideo: 1,
-                },
-                'metadata': {"type":type}
-              }
-        
-            if (!PeerStream.outStream.get(v.peer) && !PeerStream.inStream.get(v.peer) && v.peer != myPeer.id) {
-                
-                const call = myPeer.call(v.peer, myStream, options)
-                console.log("call to user")
-                call.on('stream', stream => {
-                    testStream = stream
-                    console.log('peer', stream)
-                    addStreamToView(v.peer, stream)
-                })
-                PeerStream.outStream.set(v.peer, call)
-            }
-        })
-        call_all_zoom = false
+        callAllUsers(data)
     }
     
 
@@ -150,24 +124,12 @@ function makeToastUserOut(name, id_message) {
     }, 3000)
 }
 
-function updateGridView(num) {
-    if (num < 2) {
-        wrapUsers.classList.remove('grid_1_2', 'grid_2_2', 'grid_3_4')
-    } else if (num == 2) {
-        wrapUsers.classList.remove('grid_2_2', 'grid_3_4')
-        wrapUsers.classList.add('grid_1_2')
-    } else if (num <= 4) {
-        wrapUsers.classList.remove('grid_1_2', 'grid_3_4')
-        wrapUsers.classList.add('grid_2_2')
-    } else if (num <= 12) {
-        wrapUsers.classList.remove('grid_2_2', 'grid_1_2')
-        wrapUsers.classList.add('grid_3_4')
-    }
-}
+
 
 function createUserCard({name, picture}, key, peer_id) {
     const div = document.createElement('div')
-    div.classList.add('user_card', 'h-full', 'w-full', 'relative', `${socket.id == key ? 'my_div' : 'abc'}`)
+    const my_div_class_name = socket.id == key && !peer_id.includes('sharescreen') ? 'my_div' : 'abc'
+    div.classList.add('user_card', 'h-full', 'w-full', 'relative', my_div_class_name)
     div.id = '__' + peer_id
     let html = `<div class="user_mic absolute">
                     <i class='bx bxs-microphone-off' ></i>
@@ -177,11 +139,11 @@ function createUserCard({name, picture}, key, peer_id) {
                     <img class="user_content" src="${picture}" alt="">
                 </div>
                 <div class="card_option flex align-center center absolute">
-                        <div class="card_option_item">
+                        <div class="card_option_item" onclick="togglePin(this)">
                             <i class='bx bx-pin'></i>
                         </div>
                         <div class="card_option_item">
-                            <i class='bx bx-pin'></i>
+                            <i class='bx bx-block' title='Chưa code'></i>
                         </div>
                     </div>
                 <div class="user_name absolute">
@@ -190,54 +152,6 @@ function createUserCard({name, picture}, key, peer_id) {
     div.innerHTML = html
     return div
 }
-
-
-
-// ui
-function toggleSideBar(_this) {
-    const content = $('.' + _this.dataset.sidebar_item)
-
-    const div = document.querySelector('.div_top')
-    const sidebar = document.querySelector('.sidebar')
-    const sidebar_content = document.querySelector('.sidebar_content')
-    if (div.classList.contains('sidebar_active')) {
-        sidebar.classList.remove('slide_in')
-        sidebar_content.classList.add('content_none')
-        sidebar.classList.add('slide_out')
-
-        setTimeout(() => {
-            div.classList.remove('sidebar_active')
-            sidebar.classList.remove('slide_out')
-            sidebar.classList.add('slide_in')
-            sidebar_content.classList.remove('content_none')
-            content.classList.add('none')
-        }, 300)
-        
-        
-    } else {
-        sidebar_content.classList.add('content_none')
-        div.classList.add('sidebar_active')
-        content.classList.remove('none')
-        setTimeout(() => {
-            sidebar_content.classList.remove('content_none')
-        }, 600)
-    }
-}
-
-// function toggleSideBar(_this) {
-//     const div = document.querySelector('.div_top')
-//     if (div.classList.contains('sidebar_active')) {
-//         div.classList.remove('sidebar_active')
-//     } else {
-//         div.classList.add('sidebar_active')
-//     }
-// }
-
-function pinOrUpinContent(_this) {
-    const card = _this.parentElement.parentElement
-    return card.parentElement.removeChild(card)
-}
-
 
 
 socket.on('user_toggle_camera', (peer_id, status) => {

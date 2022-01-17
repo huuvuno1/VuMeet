@@ -23,27 +23,9 @@
 <body>
     <div id="app" class="none">
         <div class="div_top flex center">
-            <div class="main_views flex "> <!-- slideshow_active -->
+            <div class="main_views flex ">
+                <!-- slideshow_active -->
                 <div class="slideshow none">
-                    <!-- <div class="user_card h-full w-full relative slideshow_card">
-                        <div class="user_mic absolute">
-                            <i class='bx bxs-microphone-off'></i>
-                        </div>
-                        <div class="user_item w-full h-full flex align-center center">
-                            <img class="user_content" src="/img/hình-nền-máy-tính-đẹp.jpg" alt="">
-                        </div>
-                        <div class="card_option flex align-center center absolute">
-                            <div class="card_option_item" onclick="pinOrUpinContent(this)">
-                                <i class='bx bx-pin'></i>
-                            </div>
-                            <div class="card_option_item">
-                                <i class='bx bx-pin'></i>
-                            </div>
-                        </div>
-                        <div class="user_name absolute">
-                            <h1>Bạn</h1>
-                        </div>
-                    </div> -->
                 </div>
 
                 <!-- 
@@ -76,13 +58,16 @@
                             <h1 class="noselect">
                                 Tin nhắn trong cuộc họp
                             </h1>
-                            <h1 class="slide_bar-close absolute round-full cursor-pointer">&times;</h1>
+                            <h1 class="slide_bar-close absolute round-full cursor-pointer noselect"
+                                onclick="toggleSideBar(document.querySelector('.right_option.flex.end').children[1])">
+                                &times;</h1>
                         </div>
                         <div class="box_chat-warning">
-                            Tin nhắn sẽ chỉ hiển thị với những người tham gia cuộc gọi và sẽ bị xóa khi cuộc gọi kết thúc.
+                            Tin nhắn sẽ chỉ hiển thị với những người tham gia cuộc gọi và sẽ bị xóa khi cuộc gọi kết
+                            thúc.
                         </div>
                         <div class="box_chat-content">
-                            
+
                         </div>
                         <div class="box_typing absolute">
                             <input type="text" name="" id="inpChat" placeholder="Gửi tin nhắn cho mọi người">
@@ -95,14 +80,16 @@
                             <h1 class="noselect">
                                 Chi tiết về cuộc họp
                             </h1>
-                            <h1 class="slide_bar-close absolute round-full cursor-pointer">&times;</h1>
+                            <h1 class="slide_bar-close absolute round-full cursor-pointer noselect"
+                                onclick="toggleSideBar(document.querySelector('.right_option.flex.end').children[0])">
+                                &times;</h1>
                         </div>
-                        
+
                         <div class="box_chat-content">
                             <h2 class="noselect" style="margin: 30px 0 10px;">Thông tin về cách tham gia</h2>
                             <p style="margin-bottom: 20px;" id="link_zoom"></p>
                             <div class="text-blue cursor-pointer" onclick="copy()">
-                                <i class='bx bx-copy text-blue' ></i> Sao chép thông tin về cách tham gia
+                                <i class='bx bx-copy text-blue'></i> Sao chép thông tin về cách tham gia
                             </div>
                         </div>
                     </div>
@@ -112,14 +99,16 @@
                             <h1 class="noselect">
                                 Chi tiết về cuộc họp
                             </h1>
-                            <h1 class="slide_bar-close absolute round-full cursor-pointer">&times;</h1>
+                            <h1 class="slide_bar-close absolute round-full cursor-pointer noselect"
+                                onclick="toggleSideBar(document.querySelector('.right_option.flex.end').children[2])">
+                                &times;</h1>
                         </div>
-                        
+
                         <div class="box_chat-content">
                             <h2>Thông tin về cách tham gia</h2>
                             <p>http</p>
                             <div>
-                                <i class='bx bx-copy' ></i> Sao chép thông tin về cách tham gia
+                                <i class='bx bx-copy'></i> Sao chép thông tin về cách tham gia
                             </div>
                         </div>
                     </div>
@@ -130,41 +119,58 @@
 
         <div class="option flex space-between align-center">
             <div class="left_option">
-                <span class="present_time">12:59</h1>
-                    <span style="margin: 0 5px;"> | </span>
-                    <span class="zoom_id">vdx-123-xxx</h1>
+                <span class="present_time">12:59</span>
+                <span style="margin: 0 5px;"> | </span>
+                <span class="zoom_id">vdx-123-xxx</span>
             </div>
             <div class="center_option flex center">
-                <div class="option_item round-full bg-red flex align-center center" id="btnMicro">
+                <div class="option_item round-full bg-red flex align-center center relative" id="btnMicro">
                     <i class='bx bxs-microphone-off'></i>
                     <i class='bx bxs-microphone none'></i>
                 </div>
-                <div class="option_item round-full bg-red flex align-center center" id="btnCamera">
+                <div class="option_item round-full bg-red flex align-center center relative" id="btnCamera">
                     <i class='bx bxs-camera-off'></i>
                     <i class='bx bxs-camera-movie none'></i>
                 </div>
-                <div class="option_item round-full bg-gray flex align-center center" id="">
+                <div class="option_item round-full bg-gray flex align-center center relative" id="">
                     <i class='bx bxs-hand'></i>
                 </div>
-                <div class="option_item round-full bg-gray flex align-center center" id="btnShareScreen">
+                <div class="option_item round-full bg-gray flex align-center center relative" id="btnShareScreen">
                     <i class='bx bxs-slideshow'></i>
+                    <div class="modal_title absolute bg-white round-7 none">
+                        <div class="modal_title-item flex align-center">
+                            <i class='bx bx-laptop'></i>
+                            <span class="modal_title-item_text">Chia sẻ màn hình của bạn</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="option_item round-full bg-gray flex align-center center">
+                <label for="checkbox_modal_setting"
+                    class="option_item round-full bg-gray flex align-center center relative">
                     <i class='bx bx-dots-vertical-rounded'></i>
-                </div>
+                    <input type="checkbox" hidden name="checkbox_modal_setting" id="checkbox_modal_setting">
+                    <div class="modal_title absolute bg-white round-7 noselect">
+                        <label for="modal_checkbox" class="cursor-pointer modal_title-item flex align-center">
+                            <i class='bx bxs-offer mr-20'></i>
+                            <span class="modal_title-item_text">Cài đặt</span>
+                        </label>
+                    </div>
+                </label>
                 <div class="option_item round-full bg-red flex align-center center" style="padding: 0 18px;">
                     <i class='bx bx-phone-off'></i>
                 </div>
             </div>
             <div class="right_option flex end">
-                <div class="option_item round-full flex align-center center" data-sidebar_item="zoom_info" onclick="toggleSideBar(this)">
+                <div class="option_item round-full flex align-center center" data-sidebar_item="zoom_info"
+                    onclick="toggleSideBar(this)">
                     <i class='bx bxs-info-circle'></i>
                 </div>
-                <div class="option_item round-full flex align-center center" data-sidebar_item="users_in_zoom" onclick="toggleSideBar(this)">
-                    <i class='bx bxs-user-account'></i>
-                </div>
-                <div class="option_item round-full flex align-center center" data-sidebar_item="box_chat" onclick="toggleSideBar(this)">
+                <div class="option_item round-full flex align-center center" data-sidebar_item="box_chat"
+                    onclick="toggleSideBar(this)">
                     <i class='bx bxs-conversation'></i>
+                </div>
+                <div class="option_item round-full flex align-center center" data-sidebar_item="users_in_zoom"
+                    onclick="toggleSideBar(this)">
+                    <i class='bx bxs-user-account'></i>
                 </div>
             </div>
         </div>
@@ -240,17 +246,104 @@
             </div>
         </div>
     </div>
+
+    <input type="checkbox" name="modal_checkbox" id="modal_checkbox" onclick="renderDevices(this)">
+    <div class="modal modal_full flex center align-center">
+        <div class="modal_setting round-15 absolute flex">
+            <div class="modal_setting-sidebar">
+                <h1 class="setting_sidebar-label">
+                    Cài đặt
+                </h1>
+                <div class="modal_setting-sidebar_item">
+                    <div class="setting_item cursor-pointer noselect setting_sound flex align-center setting_item-active"
+                        data-setting_option="option_sound" onclick="showSettingOption(this)">
+                        <i class='bx bx-speaker mr-10 setting_icon'></i>
+                        <span class="flex-1">Âm thanh</span>
+                    </div>
+                    <div class="setting_item cursor-pointer noselect setting_sound flex align-center "
+                        data-setting_option="option_video" onclick="showSettingOption(this)">
+                        <i class='bx bx-video mr-10 setting_icon'></i>
+                        <span class="flex-1">Video</span>
+                    </div>
+                    <div class="setting_item cursor-pointer noselect setting_sound flex align-center "
+                        data-setting_option="option_control" onclick="showSettingOption(this)">
+                        <i class='bx bx-toggle-right mr-10 setting_icon'></i>
+                        <span class="flex-1">Bộ điều khiển của người tổ chức</span>
+                    </div>
+                    <div class="setting_item cursor-pointer noselect setting_sound flex align-center "
+                        data-setting_option="option_aboutme" onclick="showSettingOption(this)">
+                        <i class='bx bx-user-circle mr-10 setting_icon'></i>
+                        <span class="flex-1">About me</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal_setting-content">
+                <div class="sidebar_content-header flex align-center space-between">
+                    <h1 class="noselect">
+                        <!-- Tin nhắn trong cuộc họp -->
+                    </h1>
+                    <label for="modal_checkbox"
+                        class="slide_bar-close absolute round-full noselect cursor-pointer">&times;</label>
+                </div>
+
+                <div class="modal_setting-content_wrappers option_sound">
+                    <div class="modal_setting-content_wrapper noselect">
+                        <div class="setting-content_item">
+                            <h1 class="text-blue-bland">Micro</h1>
+                            <p class="pb-8 pt-15 border-bottom w-fitcontent" id="list_audio_input"></p>
+                        </div>
+                        <div class="setting-content_item mt-30">
+                            <h1 class="text-blue-bland">Loa</h1>
+                            <p class="pb-8 pt-15 border-bottom w-fitcontent" id="list_audio_output"></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal_setting-content_wrappers none option_video">
+                    <div class="modal_setting-content_wrapper noselect">
+                        <div class="setting-content_item">
+                            <h1 class="text-blue-bland">Video</h1>
+                            <p class="pb-8 pt-15 border-bottom w-fitcontent" id="list_video_input"></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal_setting-content_wrappers none option_control">
+                    <div class="modal_setting-content_wrapper noselect">
+                        <div class="setting-content_item">
+                            <h1 class="text-blue-bland">Chưa code</h1>
+                            <p class="pb-8 pt-15 border-bottom w-fitcontent" id="list_video_input">Ok bro</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal_setting-content_wrappers about_me none option_aboutme">
+                    <div class="modal_setting-content_wrapper noselect">
+                        <div class="setting-content_item">
+                            <h1 class="text-blue-bland">Author</h1>
+                            <p class="pb-8 pt-15 border-bottom w-fitcontent">Nguyễn Hữu Vũ</p>
+                        </div>
+                        <div class="setting-content_item mt-30">
+                            <h1 class="text-blue-bland">Github</h1>
+                            <p class="pb-8 pt-15 border-bottom w-fitcontent"><a href="https://github.com/huuvuno1"
+                                    class="noselect no_underline" target="_blank">https://github.com/huuvuno1</a></p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="/js/auth.js"></script>
     <script src="/lib/peerjs.min.js"></script>
     <script src="/lib/socket.io.min.js"></script>
     <script src="/js/preview.js"></script>
-    <script>
-        $('#link_zoom').innerText = location.href
-    </script>
     <script src="/js/script.js"></script>
     <script src="/js/handle.peer.js"></script>
     <script src="/js/chat.js"></script>
+    <script src="/js/handle.ui.js"></script>
 </body>
 
 </html>
