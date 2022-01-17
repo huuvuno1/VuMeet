@@ -1,9 +1,18 @@
 const btnSend = $('#btnSendChat')
 const inpChat = $('#inpChat')
 
-inpChat.addEventListener('keypress', e => {
+
+inpChat.addEventListener('keydown', e => {
     if (e.which == 13 || e.keyCode == 13) {
         sendChat()
+    }
+})
+
+inpChat.addEventListener('keyup', e => {
+    if (e.target.value.trim() == '') {
+        btnSend.classList.remove('text-blue')
+    } else {
+        btnSend.classList.add('text-blue')
     }
 })
 

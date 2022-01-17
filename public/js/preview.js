@@ -28,7 +28,7 @@ const PeerStream = {
     outShareScreen: new Map()
 }
 
-navigator.getUserMedia({video: true, audio: true}, stream => {
+navigator.getUserMedia({video: { width: 1280, height: 720 }, audio: true}, stream => {
     myStream = stream
     const prev_video = $('.prev_video')
     if (!prev_video) return // user click nhanh qua dom chua kip loa
@@ -38,7 +38,7 @@ navigator.getUserMedia({video: true, audio: true}, stream => {
         this.play()
     }
 }, err => {
-    console.log(err)
+    alert('Bạn vui lòng cấp quyền cho camera & mic, nếu đã cấp thử refresh')
 })
 
 
@@ -81,7 +81,7 @@ function toggleCamera(isPreview) {
         track.stop()
     } else {
         // bat cam
-        navigator.getUserMedia({ video: true, audio: false }, 
+        navigator.getUserMedia({ video: { width: 1280, height: 720 }, audio: false }, 
             stream => {
                 myStream.removeTrack(myStream.getVideoTracks()[0])
                 myStream.addTrack(stream.getVideoTracks()[0])
@@ -89,8 +89,7 @@ function toggleCamera(isPreview) {
                 replaceTrackCamera()
             }, 
             err => {
-                alert('Lỗi r, đọc log')
-                console.log(err)
+                alert('Bạn vui lòng cấp quyền cho camera, nếu đã cấp thử refresh')
             })
     }
 

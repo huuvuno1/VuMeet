@@ -87,6 +87,14 @@
 .bg-green {
     background-color: rgb(4, 109, 4);
 }
+
+.bg-blue {
+    background-color: rgb(45, 45, 241);
+}
+
+.text-blue {
+    color: rgb(45, 45, 241) !important;
+}
 .text-18 {
     font-size: 18px;
 }
@@ -588,7 +596,6 @@
     right: 25px;
     top: 50%;
     transform: translate(0, -50%);
-    color: rgb(45, 45, 241);
 }
 
 .chat_name {

@@ -76,10 +76,11 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
         })
 
         // close and remove peer connection
-        let call = PeerStream.inStream.get(peer_id) || PeerStream.outStream.get(peer_id)
+        let call = PeerStream.inStream.get(peer_id) || PeerStream.outStream.get(peer_id) || PeerStream.outShareScreen.get(peer_id)
         if (call) call.close()
         PeerStream.inStream.delete(peer_id)
         PeerStream.outStream.delete(peer_id)
+        PeerStream.outShareScreen.delete(peer_id)
         console.log('disconnect with peer: ', peer_id)
     }
 
@@ -98,6 +99,8 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
         wrapUsers.appendChild(userDom)
         makeToastUserOut(v.info.name, 2)
     })
+
+    shareScreenToAllUsers()
     
 // lung tung
     if (camMicStatus.cam) {
@@ -112,18 +115,14 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
 
 // thong bao co user moi share
 socket.on('user_share_screen', (peer_id, name) => {
-    console.log('chao')
-    if (listShareScreen.has(peer_id))
-        return
-
-    listShareScreen.add(peer_id)
-    renderShareScreenDom(peer_id, null, false)
+    
 })
 
 
 socket.on('stop_share_screen', peer_id => {
     listShareScreen.delete(peer_id)
     const div = $('#__sharescreen_' + peer_id)
+    if (!div) return
     const parent = div.parentElement
 
     // đang được ghim
@@ -196,6 +195,8 @@ function createUserCard({name, picture}, key, peer_id) {
 
 // ui
 function toggleSideBar(_this) {
+    const content = $('.' + _this.dataset.sidebar_item)
+
     const div = document.querySelector('.div_top')
     const sidebar = document.querySelector('.sidebar')
     const sidebar_content = document.querySelector('.sidebar_content')
@@ -209,12 +210,14 @@ function toggleSideBar(_this) {
             sidebar.classList.remove('slide_out')
             sidebar.classList.add('slide_in')
             sidebar_content.classList.remove('content_none')
+            content.classList.add('none')
         }, 300)
-
+        
         
     } else {
         sidebar_content.classList.add('content_none')
         div.classList.add('sidebar_active')
+        content.classList.remove('none')
         setTimeout(() => {
             sidebar_content.classList.remove('content_none')
         }, 600)
@@ -250,3 +253,27 @@ socket.on('user_toggle_camera', (peer_id, status) => {
         video.parentElement.children[1].classList.remove('none')
     }
 })
+
+
+function copy(text) {
+    var text = text || location.href
+    navigator.clipboard.writeText(text).then(function() {
+        makeToast("Đã copy vào bộ nhớ")
+    }, function(err) {
+        makeToast("Có lỗi xảy ra khi copy")
+    });
+    
+ }
+
+
+ function makeToast(message) {
+    const div = document.createElement('div')
+    div.classList.add('toast_user_out', 'fixed')
+    div.innerHTML = `
+                        <span>${message}</span>
+                    `
+    $('body').appendChild(div)
+    setTimeout(() => {
+        $('body').removeChild(div)
+    }, 3000)
+}

@@ -32,11 +32,11 @@ function socketConfig(io) {
             socket.emit('list_users_in_room', data)
         })
 
-        socket.on('start_share_screen', () => {
-            // console.log('payload', socket.payload)
-            socket.to(socket.zoom_id).emit('user_share_screen', socket.peer_id, socket.user.name)
-            socket.emit('start_share_screen_reply')
-        })
+        // socket.on('start_share_screen', () => {
+        //     // console.log('payload', socket.payload)
+        //     socket.to(socket.zoom_id).emit('user_share_screen', socket.peer_id, socket.user.name)
+        //     socket.emit('start_share_screen_reply')
+        // })
 
         socket.on('stop_share_screen', () => {
             socket.to(socket.zoom_id).emit('stop_share_screen', socket.peer_id)
@@ -53,16 +53,16 @@ function socketConfig(io) {
 
         socket.on('disconnect', zoom_id => {
             Zoom.outRoom({...socket})
-            console.log(socket.user.email + " out phong")
             const usersInZoom = Zoom.getData().get(socket.zoom_id)
             if (!usersInZoom)
-                return
+            return
             if (usersInZoom.size == 0) {
                 usersInZoom.delete(socket.zoom_id)
                 console.log('delete zoom')
                 return
             }
-
+            
+            socket.to(socket.zoom_id).emit('stop_share_screen', socket.peer_id)
             const data = Object.fromEntries(Zoom.getData().get(socket.zoom_id))
             socket.to(socket.zoom_id).emit('list_users_in_room', data, socket.peer_id)
         })
