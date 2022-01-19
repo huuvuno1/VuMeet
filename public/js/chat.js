@@ -49,9 +49,11 @@ function renderContentChat(name, content) {
     div.querySelector('.chat_content').innerText = content
 
     $('.box_chat-content').appendChild(div)
+    $('.box_chat-content').scrollTop = $('.box_chat-content').scrollHeight
 }
 
 function getTime() {
     let time = new Date();
-    return time.getHours() + ":" + time.getMinutes()
+    let minus = time.getMinutes()
+    return time.getHours() + ":" + (minus < 10 ? '0' + minus : minus)
 }

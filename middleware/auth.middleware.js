@@ -4,7 +4,6 @@ const AuthMiddleware = {}
 
 AuthMiddleware.auth = async (req, res, next) => {
     const token = req.cookies.token || ''
-    
     try {
         const payload = await verifyToken(token)
         req.payload = payload

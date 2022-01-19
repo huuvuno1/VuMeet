@@ -16,6 +16,8 @@ const btnCamera = $('#btnCamera')
 const btnMicro = $('#btnMicro')
 const btnShareScreen = $('#btnShareScreen')
 let listShareScreen = new Set()
+const prevUserBox = '__user_box_'
+const prevUserPin = '__user_pin_'
 
 const camMicStatus = {
     cam: true,
@@ -34,7 +36,6 @@ navigator.getUserMedia({video: { width: 1280, height: 720 }, audio: true}, strea
     if (!prev_video) return // user click nhanh qua dom chua kip loa
     prev_video.srcObject= stream
     prev_video.onloadeddata = function() {
-        console.log('play')
         this.play()
     }
 }, err => {
@@ -136,7 +137,12 @@ function toggleIconPrevMicro() {
 
 
 
-function joinZoom() {
+function joinZoom2() {
+    if (!myStream) {
+        alert('từ từ bro ơi, load cam & mic đã')
+        return
+    }
+
     socket.emit('add_user_to_zoom', location.pathname.substring(1), myPeer.id)
     
     $('body').removeChild($('#app_prev'))
@@ -150,6 +156,24 @@ function joinZoom() {
     }
     if (camMicStatus.mic)
         toggleIconMicro()
+
+    
+}
+
+function joinZoom() {
+    if (!myStream) {
+        alert('từ từ bro ơi, load cam & mic đã')
+        return
+    }
+
+    socket.emit('request_to_join', location.pathname.substring(1))
+
+    $('#btnCreateZoom').classList.add('none')
+    $('.loadding').classList.remove('none')
+
+    // socket.emit('add_user_to_zoom', location.pathname.substring(1), myPeer.id)
+    
+    
 
     
 }

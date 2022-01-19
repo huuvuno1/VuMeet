@@ -30,9 +30,6 @@ ApiController.login = async (req, res) => {
 
 ApiController.createZoom = (req, res) => {
     const uuid = randomUUID()
-
-    
-
     Zoom.addZoom(req.payload, uuid)
     console.log(Zoom.getData())
 

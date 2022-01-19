@@ -38,6 +38,6 @@ function createZoom() {
         .then(data => location.href = `/${data.zoom_id}`)
         .catch(err => {
             console.log(err)
-            alert('loi roi, doc log di')
+            alert('Login đã bro ơi, bên trên góc phải màn hình á')
         })
 }

@@ -53,20 +53,20 @@
             <div class="sidebar none slide_in">
                 <div class="sidebar_content relative">
                     <!-- box chat -->
-                    <div class="box_chat w-full h-full none">
-                        <div class="sidebar_content-header flex align-center space-between">
+                    <div class="sidebar_content-item box_chat w-full h-full none flex">
+                        <div class="sidebar_content-header flex align-center space-between noselect">
                             <h1 class="noselect">
                                 Tin nhắn trong cuộc họp
                             </h1>
                             <h1 class="slide_bar-close absolute round-full cursor-pointer noselect"
-                                onclick="toggleSideBar(document.querySelector('.right_option.flex.end').children[1])">
+                                data-sidebar_item="box_chat" onclick="toggleSideBar(this)">
                                 &times;</h1>
                         </div>
                         <div class="box_chat-warning">
                             Tin nhắn sẽ chỉ hiển thị với những người tham gia cuộc gọi và sẽ bị xóa khi cuộc gọi kết
                             thúc.
                         </div>
-                        <div class="box_chat-content">
+                        <div class="box_chat-content ">
 
                         </div>
                         <div class="box_typing absolute">
@@ -75,13 +75,13 @@
                         </div>
                     </div>
 
-                    <div class="zoom_info w-full h-full none">
-                        <div class="sidebar_content-header flex align-center space-between">
+                    <div class="sidebar_content-item zoom_info w-full h-full none">
+                        <div class="sidebar_content-header flex align-center space-between noselect">
                             <h1 class="noselect">
                                 Chi tiết về cuộc họp
                             </h1>
                             <h1 class="slide_bar-close absolute round-full cursor-pointer noselect"
-                                onclick="toggleSideBar(document.querySelector('.right_option.flex.end').children[0])">
+                                data-sidebar_item="zoom_info" onclick="toggleSideBar(this)">
                                 &times;</h1>
                         </div>
 
@@ -94,22 +94,27 @@
                         </div>
                     </div>
 
-                    <div class="users_in_zoom w-full h-full none">
-                        <div class="sidebar_content-header flex align-center space-between">
+                    <div class="sidebar_content-item users_in_room box_chat w-full h-full flex none">
+                        <div class="sidebar_content-header flex align-center space-between noselect">
                             <h1 class="noselect">
-                                Chi tiết về cuộc họp
+                                Mọi người
                             </h1>
-                            <h1 class="slide_bar-close absolute round-full cursor-pointer noselect"
-                                onclick="toggleSideBar(document.querySelector('.right_option.flex.end').children[2])">
+                            <h1 class="slide_bar-close absolute round-full cursor-pointer"
+                                data-sidebar_item="users_in_room" onclick="toggleSideBar(this)">
                                 &times;</h1>
                         </div>
-
-                        <div class="box_chat-content">
-                            <h2>Thông tin về cách tham gia</h2>
-                            <p>http</p>
-                            <div>
-                                <i class='bx bx-copy'></i> Sao chép thông tin về cách tham gia
+                        <div class="box_users-search relative">
+                            <i class='cursor-pointer bx bx-search-alt-2 absolute text-24' id="btnSearchUsers"></i>
+                            <input type="text" class="round-4 outline-none w-full h-full p-15" id="inpSearchUsers"
+                                placeholder="Tìm kiếm người">
+                        </div>
+                        <div class=" noselect">
+                            <div class="users_label">
+                                Trong cuộc họp
                             </div>
+                            <div class="wrap_box-users ">
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -160,16 +165,16 @@
                 </div>
             </div>
             <div class="right_option flex end">
-                <div class="option_item round-full flex align-center center" data-sidebar_item="zoom_info"
-                    onclick="toggleSideBar(this)">
+                <div class="option_item round-full flex align-center center icon__zoom_info"
+                    data-sidebar_item="zoom_info" onclick="toggleSideBar(this)">
                     <i class='bx bxs-info-circle'></i>
                 </div>
-                <div class="option_item round-full flex align-center center" data-sidebar_item="box_chat"
+                <div class="option_item round-full flex align-center center icon__box_chat" data-sidebar_item="box_chat"
                     onclick="toggleSideBar(this)">
                     <i class='bx bxs-conversation'></i>
                 </div>
-                <div class="option_item round-full flex align-center center" data-sidebar_item="users_in_zoom"
-                    onclick="toggleSideBar(this)">
+                <div class="option_item round-full flex align-center center icon__users_in_room"
+                    data-sidebar_item="users_in_room" onclick="toggleSideBar(this)">
                     <i class='bx bxs-user-account'></i>
                 </div>
             </div>
@@ -179,7 +184,7 @@
 
     <div id="app_prev">
         <header class="header_home flex space-between">
-            <a href="#" class="">
+            <a href="/" class="">
                 <img src="/img/logoo.png" class="h-36" alt="">
             </a>
             <div class="flex">
@@ -241,15 +246,21 @@
                     </div>
                 </div>
             </div>
-            <div class="prev_right">
-                <button id="btnCreateZoom" onclick="joinZoom()">Tham gia cuoc hop</button>
+            <div class="prev_right text-center" style="padding-top: 30px;">
+                <button id="btnCreateZoom" class="mx-auto mt-30" onclick="joinZoom()">Tham gia cuộc họp</button>
+                <div class="loadding none noselect">
+                    <div class="mx-auto mt-30" style="width: fit-content; padding: 20px;background: antiquewhite;">Đang
+                        chờ duyệt</div>
+                    <div class="loader mx-auto mt-15"></div>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <input type="checkbox" name="modal_checkbox" id="modal_checkbox" onclick="renderDevices(this)">
-    <div class="modal modal_full flex center align-center">
-        <div class="modal_setting round-15 absolute flex">
+    <input type="checkbox" name="modal_checkbox" id="modal_checkbox" hidden onclick="renderDevices(this)">
+    <label for="modal_checkbox" class="modal modal_full flex center align-center noselect">
+        <div onclick="event.stopPropagation(); event.preventDefault();" class="modal_setting round-15 absolute flex">
             <div class="modal_setting-sidebar">
                 <h1 class="setting_sidebar-label">
                     Cài đặt
@@ -282,7 +293,7 @@
                     <h1 class="noselect">
                         <!-- Tin nhắn trong cuộc họp -->
                     </h1>
-                    <label for="modal_checkbox"
+                    <label for="modal_checkbox" onclick="document.querySelector('#modal_checkbox').checked = false"
                         class="slide_bar-close absolute round-full noselect cursor-pointer">&times;</label>
                 </div>
 
@@ -332,6 +343,36 @@
 
                 </div>
 
+            </div>
+        </div>
+    </label>
+
+
+    <input type="checkbox" name="modal_alert_checkbox" id="modal_alert_checkbox" hidden>
+    <div class="modal_alert noselect">
+        <div class="modal_alert-content round-10 bg-white text mx-auto mt-15 modal_users_join_room">
+            <!--muilti_user_join-->
+            <div class="modal_wrap-content flex">
+                <div class="modal_alert-avatar round-full">
+                    <img src="/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full modal_alert-avatar_i"
+                        alt="">
+                </div>
+                <div class="modal_alert-messages flex-1 ml-15">
+                    <h1 class="modal_alert-title text-black">Ai đó muốn tham gia cuộc gọi này</h1>
+                    <div class="modal_join-users">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal_alert_footer modal_wrap-option flex flex-end align-center none">
+                <label for="modal_alert_checkbox"
+                    class="modal_alert-button_item cursor-pointer round-7 text-center p-5">
+                    Từ chối tất cả
+                </label>
+                <label for="modal_alert_checkbox"
+                    class="modal_alert-button_item cursor-pointer round-7 text-center p-5 ml-20">
+                    Cho phép tất cả
+                </label>
             </div>
         </div>
     </div>

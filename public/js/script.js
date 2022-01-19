@@ -9,6 +9,88 @@ let testStream
 
 let call_all_zoom = true
 
+
+socket.on('request_to_join', data => {
+    if (data == 'OK') {
+        startJoinRoom()
+    } else if (data == 'DENIED') {
+        $('#btnCreateZoom').classList.remove('none')
+        $('#btnCreateZoom').innerText = 'Ai đó đã từ chối bạn - Yêu cầu lại'
+        $('.loadding').classList.add('none')
+    } else {
+        socket.emit('add_user_to_zoom', myPeer.id, data)
+    }
+})
+
+socket.on('listen_request_to_join', (user, requestID) => {
+    const data = JSON.parse(user)
+
+    // show noti
+    $('#modal_alert_checkbox').checked = true
+    $('.modal_alert-avatar_i').src = data.picture
+
+    let div = document.createElement('div')
+    div.classList.add('modal_join-user')
+    let html = `
+                    <p class="text-gray">${data.name}</p>
+                    <div class="modal_wrap-option flex flex-end align-center mt-15">
+                        <div for="modal_alert_checkbox" 
+                            class="modal_alert-button_item cursor-pointer round-7 text-center p-5"
+                            onclick="allowEnterRoom(this, '${requestID}', false)"    
+                        >
+                            Từ chối
+                        </div>
+                        <div for="modal_alert_checkbox" 
+                            class="modal_alert-button_item cursor-pointer round-7 text-center p-5 ml-20 mr-20"
+                            onclick="allowEnterRoom(this, '${requestID}', true)"
+                        >
+                            Chấp nhận                    
+                        </div>
+                    </div>
+                `
+    div.innerHTML = html
+    $('.modal_join-users').appendChild(div)
+    if ($('.modal_join-users').childElementCount > 1) {
+        $('.modal_users_join_room').classList.add('muilti_user_join')
+    }
+})
+
+function startJoinRoom() {
+    console.log('join zoom')
+    socket.emit('add_user_to_zoom', myPeer.id)
+    $('body').removeChild($('#app_prev'))
+    $('#app').classList.remove('none')
+    $('body').id = 'zoom_page'
+
+    // by default, icon cam/mic set to off
+    if (camMicStatus.cam) {
+        toggleIconCamera()
+        
+    }
+    if (camMicStatus.mic)
+        toggleIconMicro()
+}
+
+
+function allowEnterRoom(element, requestID, ok) {
+    if (ok) {
+        console.log('duyet')
+        socket.emit('reply_request_to_join', requestID, 'OK')
+    } else {
+        console.log('denied')
+        socket.emit('reply_request_to_join', requestID, 'DENIED')
+    }
+
+    $('.modal_join-users').removeChild(element.parentElement.parentElement)
+
+    if ($('.modal_join-users').childElementCount == 0)
+        $('#modal_alert_checkbox').checked = false
+
+    if ($('.modal_join-users').childElementCount <= 1) {
+        $('.modal_users_join_room').classList.remove('muilti_user_join')
+    }
+}
+
 socket.on('list_users_in_room', (users_str, peer_id) => {
     const data = new Map(Object.entries(users_str))
 
@@ -49,6 +131,12 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
             }
         })
 
+        // remove div in sidebar
+        const user_box = $('#' + prevUserBox + peer_id)
+        if (user_box) {
+            $('.wrap_box-users').removeChild(user_box)
+        }
+
         // close and remove peer connection
         let call = PeerStream.inStream.get(peer_id) || PeerStream.outStream.get(peer_id) || PeerStream.outShareScreen.get(peer_id)
         if (call) call.close()
@@ -67,11 +155,16 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
     // render
     updateGridView(UsersInRoom.size)
     UsersInRoom.forEach((v, k) => {
+        // update user in sidebar
+        renderUserToBox(v, k)
+
+
         let check = $('#__' + v.peer)
         if (check) return
         const userDom = createUserCard({...v.info}, k, v.peer)
         wrapUsers.appendChild(userDom)
         makeToastUserOut(v.info.name, 2)
+
     })
 
     shareScreenToAllUsers()
@@ -92,6 +185,11 @@ socket.on('user_share_screen', (peer_id, name) => {
     
 })
 
+socket.on('camera_is_off', peer_id => {
+    console.log('user cam off', new Date().getTime())
+    $('#___' + peer_id).classList.add('none')
+    $('#___' + peer_id).parentElement.children[1].classList.remove('none')
+})
 
 socket.on('stop_share_screen', peer_id => {
     listShareScreen.delete(peer_id)
@@ -105,6 +203,11 @@ socket.on('stop_share_screen', peer_id => {
     }
     parent.removeChild(div)
 })
+
+socket.on('disconnect', () => {
+    console.log('disconnect to server')
+})
+
 /**
  * 
  * @param {*} name 
@@ -129,6 +232,7 @@ function makeToastUserOut(name, id_message) {
 function createUserCard({name, picture}, key, peer_id) {
     const div = document.createElement('div')
     const my_div_class_name = socket.id == key && !peer_id.includes('sharescreen') ? 'my_div' : 'abc'
+
     div.classList.add('user_card', 'h-full', 'w-full', 'relative', my_div_class_name)
     div.id = '__' + peer_id
     let html = `<div class="user_mic absolute">
@@ -139,15 +243,15 @@ function createUserCard({name, picture}, key, peer_id) {
                     <img class="user_content" src="${picture}" alt="">
                 </div>
                 <div class="card_option flex align-center center absolute">
-                        <div class="card_option_item" onclick="togglePin(this)">
+                        <div class="card_option_item ${prevUserPin + peer_id}" onclick="togglePin(this)">
                             <i class='bx bx-pin'></i>
                         </div>
                         <div class="card_option_item">
-                            <i class='bx bx-block' title='Chưa code'></i>
+                            <i class='bx bx-block' title='Chưa code' style='color: gray; cursor: not-allowed;'></i>
                         </div>
                     </div>
                 <div class="user_name absolute">
-                    <h1>${socket.id == key ? 'Bạn' : name}</h1>
+                    <h1>${(socket.id == key ? 'Bạn' : name) + (peer_id.includes('sharescreen') ? ' đang chia sẻ màn hình' : '')}</h1>
                 </div>`
     div.innerHTML = html
     return div
