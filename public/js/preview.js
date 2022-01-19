@@ -109,7 +109,6 @@ function replaceTrackCamera() {
 }
 
 function toggleMicro(isPreview) {
-    console.log('pri', isPreview)
     if (isPreview) {
         toggleIconPrevMicro()
     } else {
@@ -117,8 +116,14 @@ function toggleMicro(isPreview) {
     }
     if (!myStream) return
     myStream.getAudioTracks()[0].enabled = camMicStatus.mic
-    console.log('toggle mic', camMicStatus.mic)
     
+    if ($('#__' + myPeer.id))
+        $('#__' + myPeer.id).children[0].innerHTML = camMicStatus.mic ? `<i class='bx bx-microphone'></i>` : `<i class="bx bxs-microphone-off"></i>`
+    
+    // thong bao cho users de hien thi avatar thay th
+    if ((PeerStream.inStream.size > 0 || PeerStream.outStream.size > 0) && socket) {
+        socket.emit('toggle_micro', camMicStatus.mic)
+    }
 }
 
 function toggleIconPrevMicro() {
@@ -135,30 +140,6 @@ function toggleIconPrevMicro() {
     }
 }
 
-
-
-function joinZoom2() {
-    if (!myStream) {
-        alert('từ từ bro ơi, load cam & mic đã')
-        return
-    }
-
-    socket.emit('add_user_to_zoom', location.pathname.substring(1), myPeer.id)
-    
-    $('body').removeChild($('#app_prev'))
-    $('#app').classList.remove('none')
-    $('body').id = 'zoom_page'
-
-    // by default, icon cam/mic set to off
-    if (camMicStatus.cam) {
-        toggleIconCamera()
-        
-    }
-    if (camMicStatus.mic)
-        toggleIconMicro()
-
-    
-}
 
 function joinZoom() {
     if (!myStream) {
