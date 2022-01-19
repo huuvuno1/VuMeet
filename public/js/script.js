@@ -236,7 +236,7 @@ function createUserCard({name, picture}, key, peer_id) {
     div.classList.add('user_card', 'h-full', 'w-full', 'relative', my_div_class_name)
     div.id = '__' + peer_id
     let html = `<div class="user_mic absolute">
-                    <i class='bx bxs-microphone-off' ></i>
+                    ${camMicStatus.mic ? `<i class='bx bx-microphone'></i>` : `<i class="bx bxs-microphone-off"></i>`}
                 </div>
                 <div class="user_item w-full h-full flex align-center center">
                     <video class="user_content none" src=""  id="___${peer_id}" autoplay ${socket.id == key ? 'muted' : ''}></video>
@@ -269,6 +269,20 @@ socket.on('user_toggle_camera', (peer_id, status) => {
     } else {
         video.classList.add('none')
         video.parentElement.children[1].classList.remove('none')
+    }
+})
+
+
+socket.on('user_toggle_micro', (peer_id, status) => {
+    const wrap = $('#__' + peer_id)
+    if (!wrap) return
+    
+    const video =  $('#___' + peer_id)
+    const wrapMic = video.parentElement.parentElement.children[0]
+    if (status){
+        wrapMic.innerHTML = `<i class='bx bx-microphone'></i>`
+    } else {
+        wrapMic.innerHTML = `<i class="bx bxs-microphone-off"></i>`
     }
 })
 

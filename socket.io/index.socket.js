@@ -109,6 +109,10 @@ function socketConfig(io) {
             socket.to(socket.zoom_id).emit('user_toggle_camera', socket.peer_id, status)
         })
 
+        socket.on('toggle_micro', status => {
+            socket.to(socket.zoom_id).emit('user_toggle_micro', socket.peer_id, status)
+        })
+
         socket.on('disconnect', zoom_id => {
             Zoom.outRoom({...socket})
             const usersInZoom = Zoom.getData().get(socket.zoom_id)?.users
