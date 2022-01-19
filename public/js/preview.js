@@ -16,6 +16,8 @@ const btnCamera = $('#btnCamera')
 const btnMicro = $('#btnMicro')
 const btnShareScreen = $('#btnShareScreen')
 let listShareScreen = new Set()
+const prevUserBox = '__user_box_'
+const prevUserPin = '__user_pin_'
 
 const camMicStatus = {
     cam: true,
@@ -135,7 +137,7 @@ function toggleIconPrevMicro() {
 
 
 
-function joinZoom() {
+function joinZoom2() {
     if (!myStream) {
         alert('từ từ bro ơi, load cam & mic đã')
         return
@@ -154,6 +156,24 @@ function joinZoom() {
     }
     if (camMicStatus.mic)
         toggleIconMicro()
+
+    
+}
+
+function joinZoom() {
+    if (!myStream) {
+        alert('từ từ bro ơi, load cam & mic đã')
+        return
+    }
+
+    socket.emit('request_to_join', location.pathname.substring(1))
+
+    $('#btnCreateZoom').classList.add('none')
+    $('.loadding').classList.remove('none')
+
+    // socket.emit('add_user_to_zoom', location.pathname.substring(1), myPeer.id)
+    
+    
 
     
 }

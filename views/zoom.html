@@ -98,7 +98,7 @@
             <div class="sidebar ">
                 <div class="sidebar_content relative">
                     <!-- box chat -->
-                    <div class="box_chat w-full h-full">
+                    <!-- <div class="box_chat w-full h-full flex">
                         <div class="sidebar_content-header flex align-center space-between">
                             <h1 class="noselect">
                                 Tin nhắn trong cuộc họp
@@ -110,11 +110,199 @@
                             thúc.
                         </div>
                         <div class="box_chat-content">
-
+                            <div class="wrap_chat">
+                                <div class="flex align-center">
+                                    <h1 class="chat_name">${name}</h1>
+                                    <span class="chat_time">${time_c}</span>
+                                </div>
+                                <div class="chat_content">
+                                    aa
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="box_typing absolute">
                             <input type="text" name="" id="inpChat" placeholder="Gửi tin nhắn cho mọi người">
                             <i class='bx bx-send cursor-pointer absolute noselect' id="btnSendChat"></i>
+                        </div>
+                    </div> -->
+
+                    <div class="box_chat w-full h-full flex">
+                        <div class="sidebar_content-header flex align-center space-between">
+                            <h1 class="noselect">
+                                Mọi người
+                            </h1>
+                            <h1 class="slide_bar-close absolute round-full cursor-pointer">&times;</h1>
+                        </div>
+                        <div class="box_users-search relative">
+                            <i class='cursor-pointer bx bx-search-alt-2 absolute text-24' id="btnSearchUsers"></i>
+                            <input type="text" class="round-4 outline-none w-full h-full p-15" id="inpSearchUsers"
+                                placeholder="Tìm kiếm người">
+                        </div>
+                        <div class=" noselect">
+                            <div class="users_label">
+                                Trong cuộc họp
+                            </div>
+                            <div class="wrap_box-users ">
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                                <div class="flex align-center">
+                                    <div class="box_user-avatar round-full b-1">
+                                        <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="" srcset="">
+                                    </div>
+                                    <div class="box_user-info flex-1 ml-15">
+                                        <div class="box_user-name">
+                                            Nguyen Huu Vu
+                                        </div>
+                                        <div class="box_user-role">
+                                            Người tổ chức cuộc họp
+                                        </div>
+                                    </div>
+                                    <div class="box_user-pin flex cursor-pointer align-center round-full center mr-10">
+                                        <i class='bx bx-pin text-24'></i>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -130,7 +318,7 @@
             <div class="center_option flex center">
                 <div class="option_item round-full bg-red flex relative align-center center">
                     <i class='bx bxs-microphone-off'></i>
-                    
+
                 </div>
                 <div class="option_item round-full bg-red flex relative align-center center">
                     <i class='bx bx-camera-movie'></i>
@@ -241,7 +429,66 @@
     </div> -->
 
 
-    
+    <input type="checkbox" name="modal_alert_checkbox" id="modal_alert_checkbox" hidden>
+    <div class="modal_alert noselect">
+        <div class="modal_alert-content round-10 bg-white text mx-auto mt-15">
+            <div class="modal_wrap-content flex align-center">
+                <div class="modal_alert-avatar round-full">
+                    <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="">
+                </div>
+                <div class="modal_alert-messages flex-1 ml-15">
+                    <h1 class="modal_alert-title text-black">Ai đó muốn tham gia cuộc gọi này</h1>
+                    <p class="text-gray">Nguyen Huu Vu</p>
+                </div>
+            </div>
+            <div class="modal_wrap-option flex flex-end align-center mt-15">
+                <label for="modal_alert_checkbox" class="modal_alert-button_item cursor-pointer round-7 text-center p-5">
+                    Từ chối yêu cầu tham gia
+                </label>
+                <label for="modal_alert_checkbox" class="modal_alert-button_item cursor-pointer round-7 text-center p-5 ml-20">
+                    Chấp nhận                    
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="checkbox" name="modal_alert_checkbox"  id="modal_alert_checkbox" hidden>
+    <div class="modal_alert noselect">
+        <div class="modal_alert-content round-10 bg-white text mx-auto mt-15 modal_users_join_room"> <!--muilti_user_join-->
+            <div class="modal_wrap-content flex">
+                <div class="modal_alert-avatar round-full">
+                    <img src="../public/img/hình-nền-máy-tính-đẹp.jpg" class="w-full h-full round-full" alt="">
+                </div>
+                <div class="modal_alert-messages flex-1 ml-15">
+                    <h1 class="modal_alert-title text-black">Ai đó muốn tham gia cuộc gọi này</h1>
+                    <div class="modal_join-users">
+                        <div class="modal_join-user">
+                            <p class="text-gray">Nguyen Huu Vu</p>
+                            <div class="modal_wrap-option flex flex-end align-center mt-15">
+                                <label for="modal_alert_checkbox" class="modal_alert-button_item cursor-pointer round-7 text-center p-5">
+                                    Từ chối
+                                </label>
+                                <label for="modal_alert_checkbox" class="modal_alert-button_item cursor-pointer round-7 text-center p-5 ml-20 mr-20">
+                                    Chấp nhận                    
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal_alert_footer modal_wrap-option flex flex-end align-center none">
+                <label for="modal_alert_checkbox" class="modal_alert-button_item cursor-pointer round-7 text-center p-5">
+                    Từ chối tất cả
+                </label>
+                <label for="modal_alert_checkbox" class="modal_alert-button_item cursor-pointer round-7 text-center p-5 ml-20">
+                    Cho phép tất cả                    
+                </label>
+            </div>
+        </div>
+    </div>
+
+
 
     <script src="../public/js/script.js"></script>
 </body>

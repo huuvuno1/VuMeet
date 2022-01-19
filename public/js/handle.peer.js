@@ -148,7 +148,7 @@ function shareScreenToAllUsers(stream) {
 
 function renderShareScreenDom(peer_id, stream, isMyShare) {
     let name = getName(peer_id)
-    const shareDom = createUserCard({name, picture: ''}, socket.id, 'sharescreen_' + peer_id)
+    const shareDom = createUserCard({name, picture: ''}, isMyShare ? socket.id : '', 'sharescreen_' + peer_id)
     const video = shareDom.querySelector('video')
     if (stream)
         video.srcObject = stream

@@ -4,11 +4,17 @@ const Zoom = {}
 
 Zoom.addZoom = (user, zoom_id) => {
     const users = new Map()
-    DB.set(zoom_id, users)
+    DB.set(zoom_id, {
+        admin: {
+            email: user.email,
+            socket_ids: []
+        },
+        users
+    })
 }
 
 Zoom.addUserToZoom = ({id, user, zoom_id, peer_id}) => {
-    const users = DB.get(zoom_id)
+    const {users} = {...DB.get(zoom_id)}
     if (!users) return
     users.set(id, {
         info: user,
@@ -17,7 +23,7 @@ Zoom.addUserToZoom = ({id, user, zoom_id, peer_id}) => {
 }
 
 Zoom.outRoom = ({id, zoom_id}) => {
-    const users = DB.get(zoom_id)
+    const users = DB.get(zoom_id)?.users
     if (!users) return
     users.delete(id)
 }

@@ -13,7 +13,7 @@ let generateToken = (user, tokenLife) => {
         {
           email: user.email,
           name: user.name,
-          picture: user.picture.split('=')[0]
+          picture: user.picture?.split('=')[0]
         },
         SECRET,
         {
