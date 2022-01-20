@@ -21,7 +21,9 @@ const prevUserPin = '__user_pin_'
 
 const camMicStatus = {
     cam: true,
-    mic: true
+    mic: true,
+    camNoPermission: false,
+    micNoPermission: false
 }
 
 const PeerStream = {
@@ -38,8 +40,56 @@ navigator.getUserMedia({video: { width: 1280, height: 720 }, audio: true}, strea
     prev_video.onloadeddata = function() {
         this.play()
     }
-}, err => {
-    alert('Bạn vui lòng cấp quyền cho camera & mic, nếu đã cấp thử refresh')
+}, async err => {
+    let checkCam = await checkPermission('camera')
+    let checkMic = await checkPermission('microphone')
+
+    if (!checkCam && !checkMic) {
+        showAlert({
+            title: 'Bạn đang chặn quyền camera và mic',
+            messsage: 'Vui lòng cấp ít nhất một quyền và tải lại trang'
+        })
+        return
+    }
+
+    let isShow = false
+
+    if (checkCam && checkMic) {
+        showAlert({
+            title: 'Không thể khởi động camera',
+            messsage: 'Máy bạn không có cam hoặc camera đang bị ứng dụng khác đang sử dụng'
+        })
+        checkCam = false
+        isShow = true
+    }
+
+    camMicStatus.camNoPermission = !checkCam
+    camMicStatus.micNoPermission = !checkMic
+
+    navigator.getUserMedia({audio: checkMic, video: checkCam}, stream => {
+        myStream = stream
+        const prev_video = $('.prev_video')
+        if (!prev_video) return // user click nhanh qua dom chua kip loa
+        prev_video.srcObject= stream
+        prev_video.onloadeddata = function() {
+            this.play()
+        }
+
+        checkCam || toggleCamera(true)
+        checkMic || toggleMicro(true)
+
+        isShow || showAlert({
+            title: 'Camera hoặc mic không có quyền',
+            messsage: 'Để trải nghiệm tốt hơn bạn nên cấp cả 2 quyền và tải lại trang'
+        })
+        
+    }, err => {
+        console.log(err)
+        showAlert({
+            title: 'Chưa nghĩ ra',
+            messsage: 'Chả biết lỗi gì, đọc log xem'
+        })
+    })
 })
 
 
@@ -67,6 +117,16 @@ function toggleIconPrevCamera() {
 }
 
 function toggleCamera(isPreview) {
+    if (camMicStatus.camNoPermission) {
+        try {
+            $('#btnPrevCamera').style.backgroundColor = 'gray'
+        } catch {}
+        try {
+            $('#btnCamera').style.backgroundColor = 'gray'
+        } catch {}
+        return
+    }
+
     if (isPreview) {
         toggleIconPrevCamera()
     } else {
@@ -78,8 +138,10 @@ function toggleCamera(isPreview) {
     if (camMicStatus.cam === false) {
         console.log('turn off cam')
         const track = myStream.getVideoTracks()[0]
-        track.enabled = false
-        track.stop()
+        if (track) {
+            track.enabled = false
+            track.stop()
+        }
     } else {
         // bat cam
         navigator.getUserMedia({ video: { width: 1280, height: 720 }, audio: false }, 
@@ -104,24 +166,50 @@ function toggleCamera(isPreview) {
 function replaceTrackCamera() {
     const merge = new Map([...PeerStream.inStream, ...PeerStream.outStream])
     merge.forEach((value, k) => {
-        value.peerConnection.getSenders()[1].replaceTrack(myStream.getVideoTracks()[0])
+        value.peerConnection.getSenders().forEach(sender => {
+            if (sender.track?.kind == 'video')
+                sender.replaceTrack(myStream.getVideoTracks()[0])
+        })
+    })
+}
+
+function replaceTrackMicro() {
+    const merge = new Map([...PeerStream.inStream, ...PeerStream.outStream])
+    merge.forEach((value, k) => {
+        value.peerConnection.getSenders().forEach(sender => {
+            if (sender.track?.kind == 'audio')
+                sender.replaceTrack(myStream.getAudioTracks()[0])
+        })
     })
 }
 
 function toggleMicro(isPreview) {
+    if (camMicStatus.micNoPermission) {
+        try {
+            $('#btnPrevMicro').style.backgroundColor = 'gray'
+        } catch {}
+        try {
+            $('#btnMicro').style.backgroundColor = 'gray'
+        } catch {}
+        return
+    }
+
     if (isPreview) {
         toggleIconPrevMicro()
     } else {
         toggleIconMicro()
     }
     if (!myStream) return
-    myStream.getAudioTracks()[0].enabled = camMicStatus.mic
+    
+    
+    myStream.getAudioTracks()[0] && (myStream.getAudioTracks()[0].enabled = camMicStatus.mic)
     
     if ($('#__' + myPeer.id))
         $('#__' + myPeer.id).children[0].innerHTML = camMicStatus.mic ? `<i class='bx bx-microphone'></i>` : `<i class="bx bxs-microphone-off"></i>`
     
     // thong bao cho users de hien thi avatar thay th
     if ((PeerStream.inStream.size > 0 || PeerStream.outStream.size > 0) && socket) {
+        console.log('emit togglemic', camMicStatus.mic)
         socket.emit('toggle_micro', camMicStatus.mic)
     }
 }
@@ -157,4 +245,18 @@ function joinZoom() {
     
 
     
+}
+
+
+function checkPermission(name) {
+    return new Promise((resolve, reject) => {
+        navigator.permissions.query({name})
+        .then((permissionObj) => {
+            resolve(permissionObj.state == 'granted')
+        })
+        .catch(err => {
+            console.log(err)
+            reject(false)
+        })
+    })
 }

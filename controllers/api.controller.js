@@ -15,7 +15,7 @@ ApiController.login = async (req, res) => {
         .then(response => response.json())
         .then(async data => {
             const jwtToken = await generateToken(data, '7d')
-            res.cookie('token', jwtToken, { maxAge: 604800*1000, httpOnly: true, sameSite: 'strict', secure: true });
+            res.cookie('token', jwtToken, { maxAge: 604800*1000, httpOnly: true, sameSite: 'strict', secure: true, path: '/' });
             res.status(200).json(data)
         })
         .catch(err => {

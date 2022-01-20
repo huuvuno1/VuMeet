@@ -59,7 +59,8 @@ function socketConfig(io) {
             if (!socket.auth) {
                 try {
                     const payload = await verifyToken(token)
-                    if (payload.name == socket.zoom_id) {
+                    console.log(payload)
+                    if (payload.name == socket.zoom_id && payload.email == socket.id) {
                         socket.auth = true
                         socket.emit('request_to_join', 'OK')
                     }

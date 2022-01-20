@@ -46,7 +46,7 @@ function toggleSideBar2(_this) {
 function toggleSideBar3(_this) {
     const sidebar_item = _this.dataset.sidebar_item
     console.log($('.' + sidebar_item))
-    const isHidden =$('.' + sidebar_item).classList.contains('none')
+    const isHidden = $('.' + sidebar_item).classList.contains('none')
     const div = document.querySelector('.div_top')
     const prevSidebar = $('option_item-active')
 
@@ -91,7 +91,7 @@ function toggleSideBar(_this) {
             showContentSidebar()
             sidebar.classList.remove('slide_in')
             sidebar.classList.add('slide_out')
-            
+
             setTimeout(() => {
                 div.classList.remove('sidebar_active')
                 sidebar.classList.add('slide_in')
@@ -240,11 +240,53 @@ function pinUserFromBox(_this) {
 $('#inpSearchUsers').addEventListener('input', e => {
     const result = []
     UsersInRoom.forEach((v, k) => {
-        if (v.info.name.toLowerCase().includes(e.target.value.toLowerCase())) 
-            result.push({k, v})
+        if (v.info.name.toLowerCase().includes(e.target.value.toLowerCase()))
+            result.push({ k, v })
     })
     $('.wrap_box-users').innerHTML = ''
     result.forEach(value => {
         renderUserToBox(value.v, value.k)
     })
 })
+
+
+function showAlert({ title, messsage, icon }, cbAccept, cbReject) {
+    const div = document.createElement('div')
+    div.className = 'modal_alert noselect modal_alert_system'
+    div.innerHTML = `<div class="modal_alert-content round-10 bg-white text mx-auto mt-15">
+                        <div class="modal_wrap-content flex align-center">
+                            <div class="modal_alert-avatar round-full">
+                                <img src="${icon || '/img/warning.png'}" class="w-full h-full round-full" alt="">
+                            </div>
+                            <div class="modal_alert-messages flex-1 ml-15">
+                                <h1 class="modal_alert-title text-black pb-8">${title}</h1>
+                                <p class="text-gray" style="padding-right: 5px;">${messsage}</p>
+                            </div>
+                        </div>
+                        <div class="modal_wrap-option flex flex-end align-center mt-15 pb-8">
+                            <label for="modal_alert_message_checkbox" 
+                                class="modal_alert-button_item cursor-pointer round-7 text-center p-5 ${cbReject ? '' : 'none'}"
+                                >
+                                Từ chối
+                            </label>
+                            <label for="modal_alert_message_checkbox" 
+                                class="modal_alert-button_item cursor-pointer round-7 text-center p-5 ml-20 mr-20"
+                                >
+                                Chấp nhận                    
+                            </label>
+                        </div>
+                    </div>`
+
+
+    div.querySelectorAll('.modal_alert-button_item').forEach(e => {
+        e.addEventListener('click', () => {
+            if (e.innerText.trim() == 'Từ chối')
+                cbReject && cbReject()
+            else
+                cbAccept && cbAccept()
+            $('body').removeChild(div)
+        })
+    })
+
+    $('body').appendChild(div)
+}
