@@ -108,6 +108,13 @@ function replaceTrackCamera() {
     })
 }
 
+function replaceTrackMicro() {
+    const merge = new Map([...PeerStream.inStream, ...PeerStream.outStream])
+    merge.forEach((value, k) => {
+        value.peerConnection.getSenders()[0].replaceTrack(myStream.getAudioTracks()[0])
+    })
+}
+
 function toggleMicro(isPreview) {
     if (isPreview) {
         toggleIconPrevMicro()
@@ -122,6 +129,7 @@ function toggleMicro(isPreview) {
     
     // thong bao cho users de hien thi avatar thay th
     if ((PeerStream.inStream.size > 0 || PeerStream.outStream.size > 0) && socket) {
+        console.log('emit togglemic', camMicStatus.mic)
         socket.emit('toggle_micro', camMicStatus.mic)
     }
 }

@@ -45,7 +45,9 @@ myPeer.on('call', (call) => {
         }
 
         let video = $('#___' + call.peer)
+        console.log('video: ', call.metadata.type)
         video.srcObject = stream
+        video.parentElement.children[2].srcObject = stream
         if (call.metadata.type == 'on') {
             video.parentElement.children[1].classList.add('none')
             video.classList.remove('none')
@@ -85,6 +87,7 @@ btnMicro.addEventListener('click', () => toggleMicro())
 function addStreamToView(id_dom, stream) {
     const video = $('#___' + id_dom)
     video.srcObject = stream
+    video.parentElement.children[2].srcObject = stream
     video.classList.remove('none')
     video.parentElement.children[1].classList.add('none')
     video.onloadeddata = function() {
@@ -205,8 +208,14 @@ function callAllUsers(data) {
           }
     
         if (!PeerStream.outStream.get(v.peer) && !PeerStream.inStream.get(v.peer) && v.peer != myPeer.id) {
-            
+            // const audio = myStream.getAudioTracks()[0]
+            // let flag = audio.enabled
+            // if (audio.enabled === false) {
+            //     console.log('co tinh bat')
+            //     audio.enabled = true
+            // }
             const call = myPeer.call(v.peer, myStream, options)
+            // audio.enabled = flag
             console.log("call to user")
             call.on('stream', stream => {
                 testStream = stream

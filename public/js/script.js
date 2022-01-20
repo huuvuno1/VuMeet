@@ -239,8 +239,9 @@ function createUserCard({name, picture}, key, peer_id) {
                     ${camMicStatus.mic ? `<i class='bx bx-microphone'></i>` : `<i class="bx bxs-microphone-off"></i>`}
                 </div>
                 <div class="user_item w-full h-full flex align-center center">
-                    <video class="user_content none" src=""  id="___${peer_id}" autoplay ${socket.id == key ? 'muted' : ''}></video>
+                    <video class="user_content none" src=""  id="___${peer_id}" autoplay muted></video>
                     <img class="user_content" src="${picture}" alt="">
+                    <audio class='none' ${socket.id == key ? 'muted' : ''} autoplay></audio> 
                 </div>
                 <div class="card_option flex align-center center absolute">
                         <div class="card_option_item ${prevUserPin + peer_id}" onclick="togglePin(this)">
