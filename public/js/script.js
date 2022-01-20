@@ -174,6 +174,9 @@ socket.on('list_users_in_room', (users_str, peer_id) => {
         console.log('vao day')
         const myVideo = $('#___' + myPeer.id)
         myVideo.srcObject = myStream
+
+        if (camMicStatus.camNoPermission)
+            return
         let img = myVideo.parentElement.children[1]
         myVideo.classList.remove('none')
         img.classList.add('none')

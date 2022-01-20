@@ -974,6 +974,16 @@
     display: none;
 }
 
+#modal_alert_message_checkbox:checked + div {
+    display: block;
+}
+
+#modal_alert_message_checkbox + div {
+    display: none;
+}
+.modal_alert_system .modal_alert-messages {
+    padding-bottom: 0 !important;
+}
 .modal_alert_footer {
     border-top: 1px solid #6B6F73;
     padding: 15px 20px;

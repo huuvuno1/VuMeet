@@ -194,7 +194,7 @@ function renderShareScreenDom(peer_id, stream, isMyShare) {
 
 function callAllUsers(data) {
     data.forEach((v, k) => {
-        const type = myStream.getVideoTracks()[0].enabled ? 'on' : 'off'
+        let type = myStream.getVideoTracks()[0]?.enabled ? 'on' : 'off'
         const options = {
             'constraints': {
               'mandatory': {
