@@ -63,8 +63,14 @@
         </div>
     </header>
 
-    <div class="container">
-        <button id="btnCreateZoom" onclick="createZoom()">Tạo cuộc họp tức thì</button>
+    <div class="container flex noselect">
+        <div style="width: 40%;">
+            <img src="/img/left.bmp" class="w-full noselect" />
+            <button id="btnCreateZoom" onclick="createZoom()" style="margin-left: 20px;">Tạo cuộc họp tức thì</button>
+        </div>
+        <div style="width: 60%;" class="text-right">
+            <img src="/img/right.bmp" class="noselect" style="width: 80%; margin: auto;"/>
+        </div>
     </div>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="/js/auth.js" async defer></script>

@@ -26,6 +26,9 @@
 .text-center {
     text-align: center;
 }
+.text-right {
+    text-align: right;
+}
 .p-15 {
     padding: 15px;
 }
